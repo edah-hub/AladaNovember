@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<title>Inter-Branch Item Transfer</title>
+<link href="{% static 'css/showtransferbranch.css' %}" rel="stylesheet" type="text/css">
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock styles %}
+
+{% block content %}
+
+<body>
+    <div class="float-end">
+        <a href="{% url 'transfer_items' %}">
+            <button type="button" class="btn btn-success"> Transfer Items</button>
+        </a>
+    </div>
+    <h1>Branch Transfer Items</h1>
+
+    <!-- Search Form -->
+    <form method="GET" action="">
+        <div class="mb-3">
+            <label for="search-branch" class="form-label">Search by Branch:</label>
+            <input type="text" class="form-control" id="search-branch" name="search_branch" placeholder="Enter branch name">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Table for Transfers -->
+    <table>
+        <thead>
+            <tr>
+                <th>From Branch</th>
+                <th>To Branch</th>
+                <th>Item</th>
+                <th>Transfer Date</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transfer in transfers %}
+            <tr>
+                <td>{{ transfer.from_branch }}</td>
+                <td>{{ transfer.to_branch }}</td>
+                <td>{{ transfer.item }}</td>
+                <td>{{ transfer.transfer_date }}</td>
+                <td>{{ transfer.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+{% endblock content %}

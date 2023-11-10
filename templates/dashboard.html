@@ -1,0 +1,67 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Dashboard</h2>
+      <p>This is portal admin dashboard</p>
+    </div>
+    <!-- <div>
+                        <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
+                    </div> -->
+  </div>
+  <div class="row">   
+   <div class="col-lg-3">
+      <div class="card card-body mb-4">
+         <article class="icontext">
+            <div class="text">
+               <h6 class="mb-1 card-title"><b>Registered Users</b></h6>
+               <span><b>{{ user_count }}</b></span>
+            </div>
+         </article>
+      </div>
+   </div>
+    
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+           <div class="text">
+            <h6 class="mb-1 card-title"><b>Suppliers</b></h6>
+            <span><b>{{ supplier_count }}</b></span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-success-light"
+            ><i class="text-success material-icons md-local_shipping"></i
+          ></span>
+          <div class="text">
+            <h6 class="mb-1 card-title"><b>Products</b></h6>
+            <span><b>{{ product_count }}</b></span>
+            <span class="text-sm"> In <b>{{category_count}}</b> Categories </span>
+          </div>
+        </article>
+      </div>
+    </div>
+  -
+
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-info-light"
+            ><i class="text-info material-icons md-shopping_basket"></i
+          ></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Monthly Earning</h6>
+            <span>$6,982</span>
+            <span class="text-sm"> Based in your local time. </span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

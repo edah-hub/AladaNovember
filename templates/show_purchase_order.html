@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Create purchase</h2>
+
+      <div class="float-end">
+        <a href="{% url 'add_purchase_order' %}">
+          <button type="button" class="btn btn-success">Create purchase</button>
+        </a>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">purchase ID</th>                   
+            <th scope="col">Supplier</th>
+            <th scope="col">Purchase Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for purchase in purchases %}
+          <tr>
+            <td scope="row">{{ forloop.counter }}</td>
+            <td>{{ purchase.po_number }}</td>
+            <td>{{ purchase.supplier }}</td>
+            <td>{{ purchase.purchase_date }}</td>
+            <td>
+              <a href="{% url 'viewdetail' purchase.po_number %}">
+                <button type="button" class="btn btn-success">View Items</button>
+              </a>
+              <a href="{% url 'update_purchase' purchase.po_number %}">
+                <button type="button" class="btn btn-primary">Update</button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

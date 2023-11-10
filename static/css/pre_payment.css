@@ -1,0 +1,53 @@
+/* payment.css */
+/* body{
+    background-color:black;
+} */
+
+.payment-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.payment-container form label {
+    font-weight: bold;
+}
+
+.payment-container form input[type="text"],
+.payment-container form input[type="number"],
+.payment-container form input[type="date"],
+.payment-container form input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.payment-container .buttons {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.payment-container .buttons button,
+.payment-container .buttons a {
+    margin-left: 10px;
+}
+
+.payment-container .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.payment-container .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+
+    <style>
+        /* Your custom styles here */
+        /* ... (previously provided styles) ... */
+    </style>
+{% endblock styles %}
+
+{% block content %}
+    <!-- content -->
+    <div class="page-wrapper">
+        <div class="content">
+            <nav class="navbar navbar-light bg-blue">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Stock Entry</a>
+                </div>
+            </nav>
+            <br>
+            <div class="table-responsive">
+                <table class="datatable table table-stripped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Stock Receipt</th>
+                            <th>Supplier</th>
+                            <th>Branch</th>
+                            <th>Received By</th>
+                            <th>Items</th>
+                            <th>Uom</th>
+                            <th>Quantity</th>
+                            <th>Purchase Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if stock_receipt %}
+                        <tr>
+                            <td>1</td>
+                            <td><b>{{ stock_receipt.id }}</b></td>
+                            <td>{{ stock_receipt.supplier }}</td>
+                            <td>{{ stock_receipt.branch_name }}</td>
+                            <td>{{ stock_receipt.receive_by }}</td>
+                            <td>
+                                {% for ingredient in stock_receipt.ingredients.all %}
+                                    {{ ingredient.main_item.item_name }}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for ingredient in stock_receipt.ingredients.all %}
+                                    {{ ingredient.item_UOM.UOM_name }}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for ingredient in stock_receipt.ingredients.all %}
+                                    {{ ingredient.quantity }}
+                                {% endfor %}
+                            </td>
+                            <td>{{ stock_receipt.purchase_date }}</td>
+                            <td>
+                                <a href="{% url 'StockEntry_withPO_edit' stock_receipt_id=stock_receipt.id %}">Edit</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="10">No data available</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

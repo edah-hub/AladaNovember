@@ -1,0 +1,2 @@
+[pylint]
+docstring-min-length = 1

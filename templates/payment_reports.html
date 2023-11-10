@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Payment Reports</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Purchase Order</th>
+                <th>Pre-Paid Amount</th>
+                <th>Date</th>
+                <th>Paid By</th>
+                <th>Payment Mode</th>
+                <th>Time</th>
+                <th>Stock Receipt Number</th>
+                <th>Payment Reference No</th>
+                <th>Branch</th>
+                <th>Cash Voucher No</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in payment_reports %}
+                <tr>
+                    <td>{{ report.purchase_order }}</td>
+                    <td>{{ report.pre_paid_amount }}</td>
+                    <td>{{ report.date }}</td>
+                    <td>{{ report.paid_by }}</td>
+                    <td>{{ report.get_payment_mode_display }}</td>
+                    <td>{{ report.time }}</td>
+                    <td>{{ report.stock_receipt_number }}</td>
+                    <td>{{ report.payment_ref_no }}</td>
+                    <td>{{ report.branch }}</td>
+                    <td>{{ report.cash_voucher_no }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

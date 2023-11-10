@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% load static %} {% block styles %} {{block.super}}
+<link
+  href="{% static 'css/view_suppliers.css' %}"
+  rel="stylesheet"
+  type="text/css"
+/>
+{% endblock styles %} {% block content %}
+<section style="width: 100%">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>BOM</h2>
+
+      <div class="float-end">
+        <a href="{% url 'bom' %}">
+          <button type="button" class="btn btn-success">Purchase Order</button>
+        </a>
+      </div>
+    </div>
+    <div class="table-responsive">
+      {% comment %} {% for bom in boms %}
+      <li>{{ bom.bom_id }} - {{ bom.item }}</li>
+      {% empty %}
+      <li>No results found.</li>
+      {% endfor %} {% endcomment %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th>Po_number</th>
+            <th>supplier</th>
+            <th>orderstatus</th>
+            <th>purchase_quantity</th>
+            <th>purchase_date</th>
+            <th>purchase_time</th>
+            <th>purchase_quantity</th>
+            {% comment %} <th>Update</th>
+            <th>Delete</th> {% endcomment %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
+            {% for bom in boms %}
+            <td scope="row">{{bom.}}</td>
+             <td>{{bom.po_number}}</a></td>
+            <td> {{bom.supplier}} </td>
+            <td>{{bom.orderstatus}}</td>
+            <td>{{bom.purchase_quantity}}</td>
+            <td>{{bom.purchase_date}}</td>
+            <td>{{bom.purchase_time}}</td>
+            {% comment %} <td><a href="{% url 'view_bom_detail' purchase.bom_id %}">
+                <button type="button" class="btn btn-success">Update</button></a> </td>
+            <td><a href="{% url 'deleteitems' purchase.bom_id %}">
+                <button type="button" class="btn btn-success">Delete</button></a></td> {% endcomment %}
+
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

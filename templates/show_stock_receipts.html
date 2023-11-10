@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <style>
+        .table-container {
+            margin-top: 20px;
+            width: 80%; /* Adjust the width as needed */
+            margin-left: auto;
+            margin-right: auto;
+        }
+     
+           
+        
+            /* Style for dropdown links */
+            .dropdown-item {
+                color: #333; /* Default color */
+                text-decoration: none;
+                transition: color 0.3s; /* Transition duration for smooth color change */
+            }
+        
+            /* Hover style for dropdown links */
+            .dropdown-item:hover {
+                color: green; /* Color change on hover */
+            }
+        
+           
+     
+        
+    </style>
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="table-container">
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Show Stock Receipts</h2>
+            <div class="float-end" style="position: relative;">
+                <button type="button" class="btn btn-success" id="receive-stock-btn">Receive stock</button>
+                <div class="dropdown-menu" id="dropdown-links" style="position: absolute; top: 100%; left: 0; display: none;">
+                    <a class="dropdown-item" href="{% url 'StockEntry_withPO' %}">With PO</a>
+                    <a class="dropdown-item" href="{% url 'StockEntry_withoutPO' %}">Without PO</a>
+                    <a class="dropdown-item" href="{% url 'transfer_items' %}">Branch Transfers</a>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Stock Receipt No</th> 
+                    <th>Supplier</th>
+                    <th>Branch</th>
+                    <th>
+                        <div class="d-flex justify-content-between">
+                            <div style="margin-right: 30px;">Items</div>
+                            <div style="margin-right: 30px;">UOM</div>
+                            <div style="margin-right: 30px;">Quantity</div>
+                            <div style="margin-right: 30px;">Unit price</div>
+                            <div style="margin-right: 30px;">Total Price</div>
+                            <div style="margin-right: 30px;">Actions</div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase_order in purchase_orders %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ purchase_order.stockreip }}</td>
+                        <td>{{ purchase_order.supplier.supplier_name }}</td>
+                        <td>{{ purchase_order.branch_name }}</td>
+                        <td>
+                            <table class="table">
+                                {% for ingredient in purchase_order.ingredients.all %}
+                                    <tr>
+                                        <td style="margin-right: 30px;">{{ ingredient.item.item_name }}</td>
+                                        <td style="margin-right: 30px;">{{ ingredient.item_UOM.UOM_name}}</td>
+                                        <td style="margin-right: 30px;">{{ ingredient.quantity }}</td>
+                                        <td style="margin-right: 30px;">{{ ingredient.unit_price }}</td>
+                                        <td style="margin-right: 30px;">{{ ingredient.total_price }}</td>
+                                        <td style="margin-right: 30px;">
+                                            <a href="{% url 'update_stock_receipt' purchase_order.id %}" class="btn btn-sm btn-primary">Update</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+    var receiveStockBtn = document.getElementById('receive-stock-btn');
+    var dropdownLinks = document.getElementById('dropdown-links');
+
+    receiveStockBtn.addEventListener('click', function () {
+        if (dropdownLinks.style.display === 'none') {
+            dropdownLinks.style.display = 'block';
+        } else {
+            dropdownLinks.style.display = 'none';
+        }
+    });
+</script>
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>BOM</h2>
+
+      <div class="float-end">
+        <a href="{% url 'branch_transfer' %}">
+          <button type="button" class="btn btn-success">Create a Branch Transfer</button>
+        </a>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item</th>                   
+            {% comment %} <th scope="col">Branch</th> {% endcomment %}
+            <th scope="col">Branch</th>
+            <th scope="col">Quantity</th>
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for transfer in transfers %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>
+              
+              {% for item in transfer.items.all %}
+              <span>{{item.itemname}}</span>
+              {% endfor %}
+            </td>
+            <td>{{transfer.branch}}</td>         
+            <td>{{transfer.quantity}}</td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

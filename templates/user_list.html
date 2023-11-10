@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content%}
+    <title>Create User View</title>
+
+    <h1>Create User View</h1>
+        <div class="float-end">
+        <a href="{% url 'create_user' %}">
+            <button type="button" class="btn btn-success"> Create User</button>
+        </a>
+    </div>
+    
+    {% comment %} <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create User</button>
+    </form> {% endcomment %}
+    
+    <h2>Users List</h2>
+    
+    <table border="1">
+        <tr>
+             <th>id</th>
+            <th>Name</th>
+            <th>User Role</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Branch Code</th>
+            <th>Username</th>
+        </tr>
+        {% for user in users %}
+            <tr>  
+                <td>{{ user.user_ID }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.user_role }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.department }}</td>
+                <td>{{ user.branch_code }}</td>
+                <td>{{ user.username }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{%endblock content%}

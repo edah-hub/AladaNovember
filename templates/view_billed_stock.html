@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Billed Stock List</h2>
+
+      <div class="float-end">
+        <a href="{% url 'billed_stock' %}">
+          <button type="button" class="btn btn-success">Add Billed Stock</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Items</th>
+            <th scope="col">Unit of Measure</th>            
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {% for bill in bills %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>
+               {% for item in bill.items.all %}
+              <span>{{item.item_name}}</span>
+              {% endfor %} 
+            </td>
+            <td>{{bill.item_UOM}}</td>
+            <td>{{bill.quantity}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock content %}

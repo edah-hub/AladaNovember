@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Items List</h2>
+
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Action</th>
+                               
+              </tr>
+            </thead>
+  
+            <tbody>
+                {% for item in items %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{item.itemname}}</td>
+                  <td> <a href="{% url 'stock_detail' item.id %}">{{item.quantity}}</a> </td>
+                  <td><input type="number" placeholder="Unit Price"></td> 
+                  <td> <a style="margin-right: 30px;" href="{% url 'edit_product' item.id %}">Edit</a></td>
+                 
+            
+                 </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+    </div>
+</section>
+<script>
+    $.ajax({
+        url: '/items/' + item_id + '/',
+        method: 'POST',
+        data: {
+            name: 'New item name',
+            description: 'New item description',
+            price: 'New item price',
+            // ... include any other updated attributes ...
+        },
+        success: function(response) {
+            console.log('Item updated successfully');
+        },
+        error: function(error) {
+            console.error('Error updating item:', error);
+        }
+    });
+</script>
+{% endblock content %}

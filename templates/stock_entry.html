@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/bom.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+      <section style="width: 100%">
+        <div class="card" style="max-width: 50rem; margin: auto">
+          <div class="card-header">
+            <h2 class="text-dark pb-3 mt-2">Add Purchase Order</h2>
+          </div>
+          <div class="card-body">
+            <form action="" method="post">
+              {%csrf_token%}
+              {% bootstrap_form form %}   
+            <button type="submit" class="btn btn-success">Submit</button>
+            </form>   
+            </div>
+        </div>
+      </section>
+              {% comment %} <h1>Input Form with Table</h1>
+              <form id="form" method="POST">
+                <label class="form-label" for="mainItem">Item:</label>
+                <select class="form-select" id="mainItem" name="mainItem">
+                  <option value="item1">Item 1</option>
+                  <option value="item2">Item 2</option>
+                  <option value="item3">Item 3</option>
+                </select> {% endcomment %}
+                
+                {% comment %} <label class="form-label" for="mainItem">Item:</label>
+                <select class="form-select" id="mainItem" name="mainItem">
+                  <option value="{{item.item_name}}" disabled selected>Select Item</option>
+                    
+                </select> {% endcomment %}
+
+              
+              <script>
+                const form = document.getElementById('form');
+                const table = document.getElementById('table');
+                const addRowButton = document.getElementById('add-row-button');
+                const existingRow = table.querySelector('tr');
+                const new_row = document.getElementById("ingredients-row")
+                
+                form.addEventListener('submit', (event) => {
+                  event.preventDefault();
+                  
+                  // get form input values
+                  const item = document.getElementById('item').value;
+                  const unit = document.getElementById('unit').value;
+                  const quantity = document.getElementById('quantity').value;
+                  
+                  // create new row for table
+                  const row = document.createElement('tr');
+                  const itemCell = document.createElement('td');
+                  const unitCell = document.createElement('td');
+                  const quantityCell = document.createElement('td');
+                  
+                  // set cell values
+                  itemCell.innerText = item;
+                  unitCell.innerText = unit;
+                  quantityCell.innerText = quantity;
+                  
+                  // append cells to row
+                  row.appendChild(itemCell);
+                  row.appendChild(unitCell);
+                  row.appendChild(quantityCell);
+                  
+                  // append row to table body
+                  table.getElementsByTagName('tbody')[0].appendChild(row);
+                  
+                  // reset form input values
+                  form.reset();
+                });
+                
+                addRowButton.addEventListener('click', () => {
+                  const clone = new_row.cloneNode(true);
+                  console.log(clone)
+                  clone.value = ""
+                  table.getElementsByTagName('tbody')[0].appendChild(clone);
+                });
+</script>
+{% endblock content %}

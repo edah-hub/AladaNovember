@@ -1,0 +1,50 @@
+   table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 10px; /* Increase padding for better spacing */
+        border: 1px solid black;
+    }
+
+    th {
+        background-color: #ddd;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    select, input[type="text"], input[type="number"], input[type="submit"] {
+        display: block;
+        margin-bottom: 15px; /* Increase margin-bottom for better spacing */
+        padding: 8px; /* Increase padding for better spacing */
+        width: 100%; /* Make inputs occupy full width */
+        box-sizing: border-box; /* Include padding in the width calculation */
+    }
+
+    .form-row {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        margin-bottom: 5px;
+    }
+
+    #phone_number, .form-select {
+        width: 70%;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .card-header {
+        margin-bottom: 20px;
+    }
+    
+    .remove-row-btn {
+        margin-top: 10px; /* Increase margin-top for better spacing */
+    }

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+  <main role="main" class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages%}
+            <li {% if message.tags%} class="{{ message.tags}}" {%endif%}>{{message}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Items List</h2>
+            
+        </div>
+<div class="jumbotron">
+            <div class='header'>{{header}}</div>
+            
+        <a href="{% url 'issue_items' queryset.id %}"><div class="btn btn-danger">ISSUE THIS ITEM</div></a>
+        <a href="{% url 'receive_items' queryset.id %}"><div class="btn btn-primary">RECIVE THIS ITEM</div></a>
+        <div class="display_table">
+            <table class="table">
+                    <tr>
+                        <th>ITEM NAME</th>
+                        <th>QUANTITY IN STORE</th>
+                        <th>LAST UPDATED</th>
+                        <th>REORDER LEVEL</th> 
+                        <th>Item Code</th>  
+                    </tr>
+                        <tr>
+                            <td>{{queryset.item_name}}</td>
+                            <td>{{queryset.item_quantity}}</td>
+                            <td>{{queryset.last_updated}}</td>
+                            <td>{{queryset.reorder_level}}</td>
+                             <td>{{queryset.item_code}}</td>
+                   </tr>
+       </table> 
+       </div>
+       </div>
+    </div>
+</section></main>
+{% endblock content %}

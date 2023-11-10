@@ -1,0 +1,38 @@
+body{
+  color: black;
+}
+#hamburgerIcon {
+  display: none !important;
+}
+
+#sidebar {
+  display: block;
+}
+
+#content-block {
+    width: 80vw;
+  }
+.dropdown-menu-bottom {
+      top: 100%;
+      margin-top: 0;
+      transform: translate(0, 0);
+}
+  
+
+@media screen and (max-width: 768px) {
+  #sidebar {
+    display: none !important;
+  }
+
+  #sidebar.active {
+    display: block!important;
+  }
+
+  #hamburgerIcon {
+    display: block !important;
+  }
+
+  #content-block {
+    width: 100vw;
+  }
+}

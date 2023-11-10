@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/home.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<div class="b-example-divider m-2">
+  <div class="card" style="width: 100%;">
+    <div class="card-body">
+      <nav>
+      <h5 class="card-title">Alada Stock and Suppliers Management System</h5>
+      <p class="card-text"> Welcome to Alada Platform, for all you suppliers and stock management needs..</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile'%}" class="btn btn-outline-secondary btn-lg px-4">Profile</a>
+                <a href="{% url 'logout'%}" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">logout</a>
+            {% else %}
+                <a href="{% url 'registerPage'%}" class="btn btn-outline-secondary btn-lg px-4">Sign up</a>
+                <a href="{% url 'login_views'%}" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Sign in</a>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- User profile -->
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Add any other profile information you want to display -->
+    {% endif %}
+
+
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+
+{% endblock content %}

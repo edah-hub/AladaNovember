@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Items List</h2>
+
+        </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th scope="col">Items</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+             {% for instance in queryset %}
+             <tr>
+                 <th scope="row">{{forloop.counter}}</th>
+                  <td>{{item.itemname}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td><input type="number" placeholder="Unit Price"></td> 
+                  <td> <a style="margin-right: 30px;" href="{% url 'edit_product' item.id %}">Edit</a></td>
+                 
+                <td>{{forloop.itemname}}</td>
+                <td>{{instance.quantity}}</td>
+                <td><a href="{% url 'update_items' instance.id %}">{{instance.item_name}}</a></td>
+                <td>{{instance.quantity}}</td>
+                <td><a href="{% url 'deleteitems' instance.id %}">Delete</a></td>
+             </tr>
+    {% endfor%}
+ </table>
+
+        <table class="table table-striped">
+           
+               
+                               
+              </tr>
+            </thead>
+  
+            <tbody>
+                {% for item in items %}
+                <tr>
+                 
+                {% endfor %}
+              </tbody>
+          </table>
+    </div>
+</section>
+<script>
+    $.ajax({
+        url: '/items/' + item_id + '/',
+        method: 'POST',
+        data: {
+            name: 'New item name',
+            description: 'New item description',
+            price: 'New item price',
+            // ... include any other updated attributes ...
+        },
+        success: function(response) {
+            console.log('Item updated successfully');
+        },
+        error: function(error) {
+            console.error('Error updating item:', error);
+        }
+    });
+</script>
+{% endblock content %}

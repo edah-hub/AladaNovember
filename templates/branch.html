@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block styles %}
+{{block.super}}
+{% load django_bootstrap5 %}
+<link href="{% static 'css/add_supplier.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 30rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">Add Branch</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+                
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+
+          
+        </div>
+    </div>
+</section>
+
+<script>
+
+    window.onload = () => {
+        let main_branch = document.getElementById("main_branch")
+        var newObject = document.createElement('select');
+        var option = document.createElement("option");
+        option.text = "Yes"
+        option.value = option.text
+
+        var option2 = document.createElement("option");
+        option2.text = "No"
+        option2.value = option2.text
+
+        newObject.add(option)
+        newObject.add(option2)
+        if(main_branch.name) newObject.name = main_branch.name;
+        if(main_branch.id) newObject.id = main_branch.id;
+        if(main_branch.className) newObject.className = main_branch.className;
+        main_branch.parentNode.replaceChildren(newObject)
+        return newObject;
+        
+        var elem2 = document.createElement('label');
+        elem2.innerHTML = "Prefered mode of payment";
+        main_branch.insertBefore(elem2,main_branch.firstElementChild);
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% load static %} {% block styles %} {{block.super}}
+<link href="{% static 'css/add_purchase.css' %}" rel="stylesheet" type="text/css" />
+{% endblock styles %} {% block content %}
+<section style="width: 100%">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Purchase Order</h2>
+      <div class="float-end">
+        <a href="{% url 'add_purchase' %}">
+          <button type="button" class="btn btn-success">
+            Add Purchase Order
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Purchase Order Number</th>
+            <th scope="col">Supplier</th>
+            <th scope="col">Order Status</th>
+            <th scope="col">Quantity</th>
+             <th scope="col">Date</th>         
+            <th scope="col">Time</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          {% for purchase in purchases %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td id= "itemList"><a href="{% url 'list_of_items' %}">{{purchase.po_number}}</a></td>
+            {% comment %} <td id= "itemList"><a href="{% url 'update_purchase' purchase.id %}">{{purchase.po_number}} {% endcomment %}
+            {% comment %} <div id="itemDetails">
+              <!-- Item details will be displayed here --></div> {% endcomment %}
+            {% comment %} <td> {{purchase.items}} </td> {% endcomment %}
+            <td> {{purchase.supplier}} </td>
+            <td>{{purchase.orderstatus}}</td>
+            <td>{{purchase.purchase_quantity}}</td>
+            <td>{{purchase.purchase_date}}</td>
+            <td>{{purchase.purchase_time}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<script>
+  const itemList = document.getElementById("itemList");
+const itemDetails = document.getElementById("itemDetails");
+
+// Add click event listener to the list
+itemList.addEventListener("click", (event) => {
+  // Get the ID of the clicked item
+  const itemId = event.target.id;
+  // Show the details for the clicked item
+  itemDetails.innerHTML = `You clicked on item ${itemId}`;
+});
+
+</script>
+{% endblock content %}

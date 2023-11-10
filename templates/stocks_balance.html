@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <style>
+        .search-button {
+            margin-left: 99px; /* Adjust the margin value as per your preference */
+        }
+        .fa-sort {
+            font-size: 1.2em; /* Adjust the font size as needed */
+        }
+        .table-container {
+            max-width: 1200px; /* Adjust the maximum width of the container */
+            margin: 0 auto;
+            overflow-x: auto; /* Enable horizontal scrolling for the table */
+        }
+        .sort-icon {
+            margin-left: 5px;
+        }
+        .main-quantity {
+            text-align: center;
+            font-size: 1.5em; /* Adjust the font size as needed */
+        }
+        #table-header {
+            color: black; /* Set the color to black */
+        }
+        th a {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          text-decoration: none;
+          color: black; /* Change the color as needed */
+        }
+        
+        #sort_icon {
+          margin-left: 5px; /* Adjust the margin as needed */
+        }
+        
+        
+        th a:hover {
+            text-decoration: none;
+        }
+    </style>
+{% endblock styles %}
+
+{% block content %}
+<section>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <form method="GET" action="{% url 'stocks_balance' %}" class="d-flex">
+      <div class="new me-2 ">
+        <input type="text" class="form-control search-button" name="search_query" placeholder="Search by Item Name, or Item Code">
+      </div>
+      <button class="btn btn-primary search-button" type="submit">Search</button>
+    </form>
+    
+ 
+      <div class="float-end">
+      <a href="{% url 'add_stocks_balance' %}">
+            <button type="button" class="btn btn-success">Add Stock Balance</button>
+        </a>
+        <a href="{% url 'upload_stock' %}">
+            <button type="button" class="btn btn-warning">Bulk Upload Stock</button>
+        </a>
+      </div>
+    
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center flex-column">
+    <div class="card">
+      <h2 class="card-header">Stock Balance</h2>
+      <div class="card-body">
+        <div class="table-container"> <!-- Use the custom container class -->
+         
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Branch</th>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Item Category</th>
+                    <th>Item Group</th>
+                    <th>UOM</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for upload in uploaded_data %}
+                <tr>
+                    <td>{{ upload.branch.branch_name }}</td>
+                    <td>{{ upload.item.item_code }}</td>
+                    <td>{{ upload.item.item_name }}</td>
+                    <td>{{ upload.item.item_category.category_name }}</td>
+                    <td>{{ upload.item.item_group.group_name }}</td>
+                  <td>{{ upload.item.item_UOM.UOM_name }}</td>
+                    <td>{{ upload.item_quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+        
+        <div class="pagination">
+          <span class="step-links">
+            {% if uploaded_data.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ uploaded_data.previous_page_number }}">previous</a>
+            {% endif %}
+        
+            <span class="current-page">
+              Page {{ uploaded_data.number }} of {{ uploaded_data.paginator.num_pages }}.
+            </span>
+        
+            {% if uploaded_data.has_next %}
+            <a href="?page={{ uploaded_data.next_page_number }}">next</a>
+            <a href="?page={{ uploaded_data.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+          </span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add a new table to display the uploaded data below the existing table -->
+<!-- Add a new table to display the uploaded data below the existing table -->
+
+
+<script>
+  const editButtons = document.querySelectorAll('.edit-button');
+
+  editButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          const branchId = this.getAttribute('data-branch-id');
+          const itemId = this.getAttribute('data-item-id');
+          const editUrl = `/stocks_balance/edit/${branchId}/${itemId}/`;
+          
+          window.location.href = editUrl;
+      });
+  });
+</script>
+
+{% endblock content %}

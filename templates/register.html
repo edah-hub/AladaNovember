@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">{{ service_metadata.title }}</div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {% for field in service_fields %}
+            <div class="form-group">
+              <label for="{{ field.name }}">{{ field.label }}</label>
+              <input type="{{ field.field_type }}" class="form-control" id="{{ field.name }}" name="{{ field.name }}" required>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

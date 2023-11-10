@@ -1,0 +1,201 @@
+
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'css/stockentry.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card mx-auto" style="max-width: 50rem;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3 mt-2">Purchase Order</h2>
+        </div>
+        <div class="card-body">
+            <form id="form" method="POST" action="">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label" for="mainItem">Supplier:</label>
+                    <select class="form-select" id="mainItem" name="mainItem">
+                        <option disabled selected>Select Supplier</option>
+                        {% for item in suppliers %}
+                            <option value="{{ item.id }}">{{ item.supplier_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="branch">Branch:</label>
+                    <select class="form-select" id="branch" name="branch">
+                        <option disabled selected>Select Branch</option>
+                        {% for branch in branches %}
+                            <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                
+                <br>
+
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                            <th>Unit of Measure</th>
+                            <th>Quantity</th>
+                            <th>Unit price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr id="ingredients-row">
+                            <td>
+                                <select class="form-select ingredient-select" name="ingredient" style="width: 200px;">
+                                    <option disabled selected>Select Item</option>
+                                   
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="mainUOM" style="width: 150px;">
+                                    <option disabled selected>Select UoM</option>
+                                    {% for uom in uoms %}
+                                        <option value="{{ uom.id }}">{{ uom.UOM_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="quantity">
+                            </td>
+                            <td>
+                                <input type="number" name="unit_price" step="0.01" required class="form-control">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove-row-btn">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn btn-primary" id="add-row-button">Add Row</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+
+            <script>
+                const form = document.getElementById('form');
+                const table = document.getElementById('table');
+                const addRowButton = document.getElementById('add-row-button');
+                const removeRowButtons = document.querySelectorAll('.remove-row-btn');
+                const newRow = document.getElementById('ingredients-row');
+            
+                addRowButton.addEventListener('click', () => {
+                    const clone = newRow.cloneNode(true);
+                    clone.value = '';
+                    table.getElementsByTagName('tbody')[0].appendChild(clone);
+                });
+            
+                table.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('remove-row-btn')) {
+                        const rowToRemove = event.target.closest('tr');
+                        if (rowToRemove !== newRow) {
+                            rowToRemove.parentNode.removeChild(rowToRemove);
+                        }
+                    }
+                });
+
+                document.getElementById('branch').addEventListener('change', function() {
+                    const branchId = this.value;
+                    const ingredientSelects = document.querySelectorAll('.ingredient-select');
+                    ingredientSelects.forEach(select => {
+                        fetch(`/get_items_for_branch/?branch_id=${branchId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Update the items select element with the received data
+                                select.innerHTML = ''; // Clear existing options
+            
+                                data.items.forEach(item => {
+                                    const option = document.createElement('option');
+                                    option.value = item.id;
+                                    option.text = item.item_name;
+                                    select.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.log(error));
+                    });
+                });
+               
+
+
+        // Function to populate the Items dropdown based on the selected branch
+        function populateItemsDropdown(branchId, selectElement) {
+            fetch(`/get_items_for_branch/?branch_id=${branchId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing options in the select element
+                    selectElement.innerHTML = '<option disabled selected>Select Item</option>';
+
+                    // Populate the select element with the received data
+                    data.items.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.text = item.item_name;
+                        selectElement.appendChild(option);
+                    });
+                })
+                .catch(error => console.log(error));
+        }
+
+ 
+
+
+<!-- ... (your previous HTML code) ... -->
+
+
+    // ... (your previous JavaScript code) ...
+
+    // Function to populate the Unit of Measure (UoM) dropdown based on the selected item
+    function populateUomDropdown(itemId, selectElement) {
+        fetch(`/get_item_uoms/?item_id=${itemId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Clear existing options in the select element
+                selectElement.innerHTML = '<option disabled selected>Select UoM</option>';
+
+                // Populate the select element with the received data
+                data.uoms.forEach(uom => {
+                    const option = document.createElement('option');
+                    option.value = uom.id;
+                    option.text = uom.UOM_name;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => console.log(error));
+    }
+
+    // Event listener for the "Items" dropdown change event
+    document.getElementById('table-body').addEventListener('change', function (event) {
+        if (event.target.classList.contains('ingredient-select')) {
+            const itemId = event.target.value;
+            const uomSelect = event.target.closest('tr').querySelector('select[name="mainUOM"]');
+            // Call the function to populate the Unit of Measure (UoM) dropdown
+            populateUomDropdown(itemId, uomSelect);
+        }
+    });
+</script>
+
+<!-- ... (rest of your template code) ... -->
+
+
+
+
+         
+        </div>
+    </div>
+</section>
+{% endblock content %}

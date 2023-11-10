@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    App Function Management
+{% endblock title %}
+
+{% block content %}
+<div class="page-wrapper dashboard-wrap">
+    <div class="content container-fluid">
+
+        <!-- Main Block -->
+        <div class="card" style="padding: 10px;">
+            <div class="col-sm-12">
+                <h4 class="page-title" style="color: orangered;">App Function Management</h4>
+                <a href="{% url 'user_role' %}">
+                    <button type="button" style="border: none;" class="btn btn-primary">
+                        <i class="fas fa-plus-square"></i> New
+                    </button>
+                </a>
+                <a href="{% url 'all_app_functions' %}">
+                    <button type="button" style="border: none;" class="btn btn-primary">
+                        <i class="fa fa-list-alt"> View</i>
+                    </button>
+                </a><br><br>
+            </div>
+            <div class="container-fluid">
+                <div class="col-12">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="col-md-12">
+                            {{ form }}
+                            <center>
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

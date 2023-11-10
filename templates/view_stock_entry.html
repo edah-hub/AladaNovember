@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2 class="text-center">Stock Entry</h2>
+
+      <div class="float-end">
+        <a href="{% url 'stock_entry' %}">
+          <button type="button" class="btn btn-success">Add Stock Entry</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Items</th>
+            <th scope="col">UoM</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in entries %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+                                 
+            <td>
+                {% for item in entry.items.all %}
+                <span>{{item.item_name}}</span>
+                {% endfor %}         
+              </td>
+            <td>{{entry.item_UOM}}</td>
+            <td>{{entry.quantity}}</td>
+          
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

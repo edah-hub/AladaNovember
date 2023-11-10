@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/bom.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 50rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">Stock Request</h2>
+        </div>
+        <div class="card-body">
+
+              <section style="width: 100%;">
+                <div class="d-flex justify-content-center align-items-center flex-column">
+            
+                    <div class="card" style="width: 30rem">
+                        <h2 class="card-header">Add Item</h2>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                
+                                {% bootstrap_form form %}
+                                
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+{% comment %} 
+                <label class="form-label" for="mainOrderType">Order Type::</label>
+                <select class="form-select" id="mainOrderType" name="mainOrderType">
+                  <option disabled selected>Select type of order</option>
+                  {% for order in orders %}
+                  <option value="{{order.order_type}}">{{order.order_type}}</option>
+                  {% endfor %}                    
+                </select> {% endcomment %}
+ 
+                
+                {% comment %} <label class="form-label" for="mainItem">Item:</label>
+                <select class="form-select" id="mainItem" name="mainItem">
+                  <option value="{{item.item_name}}" disabled selected>Select Item</option>                    
+                </select> {% endcomment %}
+                
+                
+                
+              {% comment %} <table id="table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Unit of Measure</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <tr id="ingredients-row">
+                    <td>
+                      <select class="form-select" id="ingredient" name="ingredient">
+                        <option value="{{item.item_name}}" disabled selected>Select Item</option>
+                        {% for item in items %}
+                        <option value="{{item.item_name}}">{{item.item_name}}</option>
+                        {% endfor %}                    
+                      </select>
+                    </td>
+                    <td>
+                      <select class="form-select" id="mainUOM" name="mainUOM">
+                        <option value="{{uom.UOM_name}}" disabled selected>Select UoM</option>
+                        {% for uom in uoms %}
+                        <option value="{{uom.UOM_name}}">{{uom.UOM_name}}</option>
+                        {% endfor %}                    
+                      </select>
+                    </td>
+                    <td><input type="number" class="form-control" name="quantity"></td>
+                  </tr>
+                </tbody>
+              </table> {% endcomment %}
+{% comment %}               
+              <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-primary" id="add-row-button">Add Row</button>
+                <button type="submit" class="btn btn-success m-3" id="add-row-button">Submit</button>
+              </div> {% endcomment %}
+              
+            </form>
+              
+             
+                  
+                 
+
+{% endblock content %}

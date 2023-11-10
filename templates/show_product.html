@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<style>
+  .new {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    display: flex;
+    width: 50%
+    
+  }
+</style>
+
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Items List</h2>
+            <div class="float-end">
+              <a href="{% url 'add_product' %}">
+                <button type="button" class="btn btn-success">Add Item</button>
+              </a>
+               <a href="{% url 'item_bulk_upload' %}">
+                <button type="button" class="btn btn-warning">Bulk Upload Items</button>
+              </a>
+            </div>
+        </div>
+        
+        <!-- Search Form -->
+        <form method="GET" action="{% url 'show_product' %}">
+          <div class="new">
+            <input  type="text" class="form-control" name="search_query" placeholder="Search by Item Name, or Item Code">
+            <button class="btn btn-primary search-button" type="submit">Search</button>
+          </div>
+        </form>
+        
+        <!-- Display Search Results -->
+        {% if items %}
+          <table class="table table-striped mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item Code</th>
+                  <th scope="col">Item name</th>
+                  {% comment %} <th scope="col">Item Quantity</th> {% endcomment %}
+                  <th scope="col">Item category</th>
+                  <th scope="col">Item Group</th>
+                  <th scope="col">UoM</th>
+                    <th scope="col">Action</th>
+              
+                  {% comment %} <th scope="col">Branch</th> {% endcomment %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{item.item_code}}</td> 
+                  <td>{{item.item_name}}</td> 
+                  {% comment %} <td>{{item.item_quantity}} </td> {% endcomment %}
+                  <td>{{item.item_category}}</td> 
+                  <td>{{item.item_group}}</td>               
+                  <td>{{item.item_UOM}}</td>   
+                  <td>
+                    <a href="{% url 'edit_product' item.id %}" class="btn btn-primary">Edit</a>
+                  </td> 
+                 
+                  {% comment %} <td>{{ item.branch.branch_name }}</td>
+                </tr> {% endcomment %}
+                {% endfor %}
+              </tbody>
+          </table>
+        {% else %}
+          <p>No items found.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

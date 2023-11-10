@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit User Role
+{% endblock title %}
+
+{% block content %}
+<div class="page-wrapper dashboard-wrap">
+    <div class="content container-fluid">
+        <div class="card" style="padding: 10px;">
+            <div class="col-sm-12">
+                <!-- Edit User Role Form -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        {{ form }}
+
+                        <label>Give Access:</label><br>
+                        {% for func in all_function %}
+                            <input type="checkbox" name="{{ func.function_name }}" value="True"
+                                   {% if func.function_name in user_role.functions_allowed %}checked{% endif %}>
+                            <span><strong>{{ func.function_name|title }}</strong></span><br>
+                        {% endfor %}
+                        <br>
+                        <center>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

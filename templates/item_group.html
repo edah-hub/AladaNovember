@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %} 
+ 
+{% block content %}
+<section style="width: 100%">
+  <div class="card" style="max-width: 30rem; margin: auto">
+    <div class="card-header">
+      <h2 class="text-dark pb-3 mt-2">Add Item Group</h2>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+         {{ form }}
+        
+        <button type="submit" class="btn btn-success">submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock content %}

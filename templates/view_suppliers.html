@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Suppliers List</h2>
+
+      <div class="float-end">
+        <a href="{% url 'add_supplier' %}">
+          <button type="button" class="btn btn-success">Add supplier</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Preffered Mode of Payment</th>            
+            <th scope="col">Supplier Type</th>
+            <th scope="col">Location</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Credit days</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {% for supplier in suppliers %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{supplier.supplier_name}}</td>
+            <td>{{supplier.preferred_mode_of_payment}}</td>
+            <td>{{supplier.supplier_type}}</td>
+            <td>{{supplier.physical_location}}</td>
+            <td>{{supplier.email_address}}</td>
+            <td>{{supplier.phone_number}}</td>
+            <td>{{supplier.credit_days}}</td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock content %}

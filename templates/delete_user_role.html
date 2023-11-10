@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete User Role
+{% endblock title %}
+
+{% block content %}
+<div class="page-wrapper dashboard-wrap">
+    <div class="content container-fluid">
+        <div class="card" style="padding: 10px;">
+            <div class="col-sm-12">
+                <h4 class="page-title" style="color: orangered;">Delete User Role</h4>
+                <p>Are you sure you want to delete the user role "{{ user_role.role_name }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a href="{% url 'view_user_role' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  {{block.super}}
+  <link href="{% static 'css/delete_page.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Confirm Deletion</h1>
+        <p class="card-text">Are you sure you want to delete?</p>
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="text-center">
+            <button class="btn btn-danger" type="submit">Yes</button>
+          <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

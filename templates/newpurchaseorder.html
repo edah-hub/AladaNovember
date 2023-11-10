@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/bom.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 50rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">BOM</h2>
+        </div>
+        <div class="card-body">
+            <body>
+                
+              <style>
+                table {
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+                
+                th, td {
+                  text-align: left;
+                  padding: 8px;
+                  border: 1px solid black;
+                }
+                
+                th {
+                  background-color: #ddd;
+                }
+                
+                tr:nth-child(even) {
+                  background-color: #f2f2f2;
+                }
+                
+                select, input[type="text"], input[type="number"], input[type="submit"] {
+                  display: block;
+                  margin-bottom: 10px;
+                }
+                
+                
+              </style>
+            </head>
+            <body>
+              {% comment %} <h1>Input Form with Table</h1> {% endcomment %}
+              <form id="form" method="POST" action="">
+                {% csrf_token %}
+                {% comment %} <label class="form-label" for="mainItem">Item:</label>
+                <select class="form-select" id="mainItem" name="mainItem">
+                  <option value="item1">Item 1</option>
+                  <option value="item2">Item 2</option>
+                  <option value="item3">Item 3</option>
+                </select>  {% endcomment %}
+                
+                <label class="form-label" for="mainItem">Item:</label>
+                <select class="form-select" id="mainItem" name="mainItem">
+                  <option disabled selected>Select Item</option>
+                  {% for item in items %}
+                  <option value="{{item.id}}">{{item.item_name}}</option>
+                  {% endfor %}                    
+                </select>
+                
+                
+              <table id="table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Unit of Measure</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <tr id="ingredients-row">
+                    <td>
+                      <select class="form-select" id="ingredient" name="ingredient">
+                        <option disabled selected>Select Item</option>
+                        {% for item in items %}
+                        <option value="{{item.id}}">{{item.item_name}}</option>
+                        {% endfor %}                    
+                      </select>
+                    </td>
+                    <td>
+                      <select class="form-select" id="mainUOM" name="mainUOM">
+                        <option disabled selected>Select UoM</option>
+                        {% for uom in uoms %}
+                        <option value="{{uom.id}}">{{uom.UOM_name}}</option>
+                        {% endfor %}                    
+                      </select>
+                    </td>
+                    <td><input type="number" class="form-control" name="quantity"></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-primary" id="add-row-button">Add Row</button>
+                <button type="submit" class="btn btn-success m-3">Submit</button>
+              </div>
+              
+            </form>
+              
+              <script>
+                const form = document.getElementById('form');
+                const table = document.getElementById('table');
+                const addRowButton = document.getElementById('add-row-button');
+                const existingRow = table.querySelector('tr');
+                const new_row = document.getElementById("ingredients-row")
+                addRowButton.addEventListener('click', () => {
+                  const clone = new_row.cloneNode(true);
+                  console.log(clone)
+                  clone.value = ""
+                  table.getElementsByTagName('tbody')[0].appendChild(clone);
+                });
+</script>
+{% endblock content %}

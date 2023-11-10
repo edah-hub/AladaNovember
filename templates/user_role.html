@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    User Role Management
+{% endblock title %}
+
+{% block content %}
+
+<!-- Page Wrapper -->
+<div class="page-wrapper dashboard-wrap">
+    <div class="content container-fluid">
+
+        <!-- Main Block -->
+        <div class="card" style="padding: 10px;">
+            <div class="col-sm-12">
+                <h4 class="page-title" style="color: orangered;"></h4>
+                <a href="{% url 'user_role' %}">
+                    <button type="button" style="border: none;" class="btn btn-primary">
+                        <i class="fas fa-plus-square"></i> New
+                    </button>
+                </a>
+                <a href="{% url 'view_user_role' %}">
+                    <button type="button" style="border: none;" class="btn btn-primary">
+                        <i class="fa fa-list-alt"> View</i>
+                    </button>
+                </a><br><br>
+            </div>
+            <div class="container-fluid">
+                <div class="col-12">
+                    
+                    <form method="post" action="{% url 'user_role' %}">
+                        {% csrf_token %}
+                        <div class="col-md-12">
+                            {{ form}}
+                            
+                            <label>Give Access:</label><br>
+                            {% for func in all_function %}
+                                <input type="checkbox" name="{{ func.function_name }}" value="True">
+                                <span><strong>{{ func.function_name|title }}</strong></span><br>
+                            {% endfor %}
+                            <br>
+                            <center>
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </center>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

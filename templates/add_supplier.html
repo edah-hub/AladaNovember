@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/add_supplier.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 30rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">Add Supplier</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+                
+                <div class="d-flex justify-content-between"> <!-- Wrap buttons in a flex container -->
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    window.onload = () => {
+        let preferred_mode_of_payments = document.getElementById("preferred_mode_of_payments")
+        var newObject = document.createElement('select');
+        
+        var option = document.createElement("option");
+        option.text = "Till Number"
+        option.value = option.text
+
+        var option2 = document.createElement("option");
+        option2.text = "Paybill"
+        option2.value = option2.text
+
+        var option3 = document.createElement("option");
+        option3.text = "Phone Number"
+        option3.value = option3.text
+
+        var option4 = document.createElement("option");
+        option4.text = "Cash"
+        option4.value = option4.text
+
+        newObject.add(option)
+        newObject.add(option2)
+        newObject.add(option3)
+        newObject.add(option4)
+        if(preferred_mode_of_payments.name) newObject.name = preferred_mode_of_payments.name;
+        if(preferred_mode_of_payments.id) newObject.id = preferred_mode_of_payments.id;
+        if(preferred_mode_of_payments.className) newObject.className = preferred_mode_of_payments.className;
+        preferred_mode_of_payments.parentNode.replaceChildren(newObject)
+        return newObject;
+        
+        var elem2 = document.createElement('label');
+        elem2.innerHTML = "Prefered mode of payment";
+        preferred_mode_of_payments.insertBefore(elem2,preferred_mode_of_payments.firstElementChild);
+    }
+</script>
+{% endblock content %}

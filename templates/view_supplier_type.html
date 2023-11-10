@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+          
+
+        <!-- <div class="float-end">
+            <a href="{% url 'add_product' %}">
+                <button type="button" class="btn btn-success">Add Product</button>
+            </a>
+        </div> -->
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Supplier Type Name</th>    
+                 <th scope="col">Created At</th>    
+                <th scope="col">Updated At</th>                       
+              </tr>
+            </thead>
+            <tbody>
+              {% for supplier in suppliers %}
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{supplier.name}}</td> 
+                <td>{{supplier.created_at}}</td>  
+                <td>{{supplier.updated_at}}</td>                          
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+{% load django_bootstrap5 %}
+{% load static %}
+<html lang="en">
+
+<head>
+    {% block title %}
+    <title></title>
+    {% endblock title %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block styles %}
+    {{ block.super }}
+    <link href="{% static 'css/stockentry.css' %}" rel="stylesheet" type="text/css">
+    <style>
+        .dropdown-menu.show {
+            background-color: #343a40;
+            /* Change this to the desired background color */
+        }
+
+        .dropdown-menu.show a.dropdown-item {
+            color: #ffffff;/
+        }
+
+        .custom-bg-color {
+            background-color: #198754;
+            /* Set the desired background color here */
+        }
+
+        .communicate-items {
+            background-color: #198754;
+            /* Set the desired background color here */
+        }
+
+        .custom-bg-color {
+            background-color: #198754;
+            /* Change this to the desired background color */
+        }
+
+        .communicate-items {
+            background-color: #198754;
+            /* Change this to the desired background color for the dropdown menu */
+        }
+
+        .custom-list-item-bg {
+            background-color: #198754;
+            /* Change this to the desired background color for the list group item */
+        }
+
+        .custom-collapse-bg {
+            background-color: #198754;
+            /* Change this to the desired background color for the collapsed menu */
+        }
+
+        .custom-dropdown-menu-bg {
+            background-color: #198754;
+            /* Change this to the desired background color for the dropdown menu */
+        }
+    </style>
+
+
+    {% endblock styles %}
+
+
+</head>
+
+<body>
+    <section class="d-flex" style="height: 100vh;">
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-black bg-success"
+            style="width: 20vw; overflow-y: auto;">
+            <a href="/"
+                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-light fw-bold text-decoration-none">
+                <span class="fs-4">Alada</span>
+            </a>
+            <hr>
+            {% block sidebar %}
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li>
+                    <a href="{% url 'home' %}" class="nav-link text-light">
+                        <i class="bi bi-speedometer fs-4 text-light"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                {% comment %} <li>
+                    <a href="{% url 'company_details' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Company Branches
+                    </a>
+                    <select class="form-select" aria-label="Branches" onchange="handleBranchChange(this)">
+                        <option selected disabled>Company Branches</option>
+                        <option value="{% url 'show_branch' %}"> <i
+                                class="bi bi-house-gear fs-4 text-light"></i>Branches</option>
+                    </select>
+                </li>
+                {% endcomment %}
+                <li>
+                    <a href="{% url 'show_branch' %}" class="nav-link text-light">
+                        <i class="bi bi-house-gear fs-4 text-light"></i>
+                        Branches
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'view_item_category' %}" class="nav-link text-light">
+                        <i class="bi bi-basket fs-4 text-light"></i>
+                        Item Category
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'view_item_group' %}" class="nav-link text-light">
+                        <i class="bi bi-collection fs-4 text-light"></i>
+                        Item Group
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'UoM' %}" class="nav-link text-light">
+                        <i class="bi bi-aspect-ratio fs-4 text-light"></i>
+                        UOM
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'show_product'%}" class="nav-link text-light">
+                        <i class="bi bi-basket fs-4 text-light"></i>
+                        Items
+                    </a>
+                </li>
+                <li>   
+                    <a href="{% url 'stocks_balance' %}" class="nav-link text-light">
+                        <i class="bi bi-table fs-4 text-light"></i>
+                        Stock Balance
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'views_suppliers' %}" class="nav-link text-light">
+                        <i class="bi bi-truck fs-4 text-light"></i>
+                        Suppliers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'show_purchase_order' %}" class="nav-link text-light">
+                        <i class="bi bi-handbag fs-4 text-light"></i>
+                        Purchase Orders
+                    </a>
+                </li>
+                {% comment %} <li>
+                    <a href="{% url 'show_stockreceip' %}" class="nav-link text-light">
+                        <i class="bi bi-table fs-4 text-light"></i>
+                        Stock Receipts1
+                    </a>
+                </li> {% endcomment %}
+                <li>
+                    {% comment %} <a href="{% url 'view_stock' %}" class="nav-link text-light"> {% endcomment %}
+                        <a href="{% url 'show_stock_receipts' %}" class="nav-link text-light">
+                            <i class="bi bi-table fs-4 text-light"></i>
+                            Stock Receipts
+                        </a>
+                </li>
+                <li>
+                    {% comment %} <a href="{% url 'view_stock' %}" class="nav-link text-light"> {% endcomment %}
+                        <a href="{% url 'Purchases' %}" class="nav-link text-light">
+                            <i class="bi bi-table fs-4 text-light"></i>
+                            Purchases
+                        </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'branch_transfer_items' %}" class="nav-link text-light">
+                        <i class="bi bi-table fs-4 text-light"></i>
+                        Stock Transfer
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'manage_payments' %}" class="nav-link text-light">
+                        <i class="bi bi-cash-stack fs-4 text-light"></i>
+                        Payments
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'view_bom' %}" class="nav-link text-light">
+                        <i class="bi bi-calculator fs-4 text-light"></i>
+                        BOM
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'view_sales' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        POS
+                    </a>
+                </li>
+                {% comment %} <li>
+                    <a href="{% url 'pos' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Accounting
+                    </a>
+                </li> {% endcomment %}
+                <li>
+                    <a href="{% url 'all_gline' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Gl Line
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'all_account_type' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Account Type
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'all_account' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Account
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'all_transaction' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Transaction Screen
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'all_account_entry' %}" class="nav-link text-light">
+                        <i class="bi bi-card-text fs-4 text-light"></i>
+                        Account Entry
+                    </a>
+                </li>
+            </ul>
+
+
+            {% comment %} <ul class="list-group">
+                <li class="list-group-item custom-list-item-bg text-light">
+                    <i class="bi bi-card-text fs-4 text-light"></i>
+                    Accounting
+                    <button class="btn btn-link btn-sm text-light" id="collapse-toggle" aria-expanded="false">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <div class="custom-dropdown-menu-bg"
+                        style="background-color: #198754 !important;">
+                        <ul id="communicate-items" class="collapse custom-collapse"
+                            style="background-color: #198754 !important;">
+                            <li class="list-group-item"><a href="{% url 'all_gline' %}"><i
+                                        class="fa fa-angle-right"></i>
+                                    Gl Line</a></li>
+                            <li class="list-group-item"><a href="{% url 'all_account_type' %}"><i
+                                        class="fa fa-angle-right"></i>
+                                    Account Type</a></li>
+                            <li class="list-group-item"><a href="{% url 'all_account' %}"><i
+                                        class="fa fa-angle-right"></i>
+                                    Account</a>
+                            </li>
+                            <li class="list-group-item"><a href="{% url 'all_transaction' %}"><i
+                                        class="fa fa-angle-right"></i>
+                                    Transaction Screen</a>
+                            </li>
+                            <li class="list-group-item"><a href="{% url 'all_account_entry' %}"><i
+                                    class="fa fa-angle-right"></i>
+                                Account Entry</a>
+                        </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul> {% endcomment %}
+
+
+
+
+
+
+
+            <hr>
+
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-light text-decoration-none dropdown-toggle"
+                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users' %}">User</a></li>
+                    <li><a class="dropdown-item" href="{% url 'roles' %}">Roles</a></li>
+                    <li><a class="dropdown-item" href="{% url 'functions' %}">Functions</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                </ul>
+            </div>
+
+
+
+
+        </div>
+        {% endblock sidebar %}
+
+        <section class="pe-2" id="content-block">
+            {% include 'navbar.html' %}
+            {% block content %}
+            {% endblock content %}
+        </section>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <script>
+
+
+        // JavaScript to handle dropdown toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            dropdownToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('show');
+            });
+        });
+
+        function handleBranchChange(selectElement) {
+            var selectedValue = selectElement.value;
+            if (selectedValue !== '') {
+                window.location.href = selectedValue;
+            }
+        }
+    </script>
+
+    {% block scripts %}
+    <script src="{% static 'js/sidebar.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Add this in the <head> section of your 'base.html' template -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('collapse-toggle');
+            const collapseElement = new bootstrap.Collapse(document.getElementById('communicate-items'), { toggle: false });
+
+            let isOpen = false;
+
+            toggleButton.addEventListener('click', () => {
+                if (isOpen) {
+                    collapseElement.hide();
+                } else {
+                    collapseElement.show();
+                }
+                isOpen = !isOpen;
+            });
+        });
+    </script>
+
+    {% endblock scripts %}
+
+</body>
+
+</html>

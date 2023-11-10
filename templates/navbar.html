@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg bg-light py-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Stock and Supplier Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+
+            {% comment %} {% if user.is_authenticated %} {% endcomment %}
+            {% comment %} <div>
+                <a class="navbar-brand text-light" href="{% url 'loginPage'%}">
+                     <p>Welcome, {{ user.username }}!</p>
+                     <p>Email: {{ user.email }}</p>
+              
+            </div> {% endcomment %}
+
+                    {% comment %} <button class="btn btn-danger">
+                        Sign out
+                    </button>
+                </a>
+            </div> {% endcomment %}
+            {% comment %} {% else %} {% endcomment %}
+            {% comment %} <div class="div">
+                <a class="navbar-brand text-dark" href="{% url 'registerPage'%}">
+                    <button class="btn btn-primary">Sign Up</button>
+                </a>
+            </div>
+            <div>
+                <a class="navbar-brand text-dark" href="{% url 'loginPage'%}">
+                    <button class="btn btn-success">
+                        Sign in
+                    </button>
+                </a>
+            </div> {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+        </div>
+    </div>
+</nav>

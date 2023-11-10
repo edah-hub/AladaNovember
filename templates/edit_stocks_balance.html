@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <style>
+        #item {
+            margin-left: 50px;
+        }
+
+        #field {
+            width: 100%;
+        }
+    </style>
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%">
+    <div class="card" style="max-width: 50rem; margin: auto">
+        <div class="card-header">
+            <h2 class="text-dark pb-3 mt-2">Edit stocks balance</h2>
+        </div>
+
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div id="item" class="mb-3">
+                    <div class="label">
+                        {{ field.label_tag }}
+                    </div>
+                    <div id="field" class="field">
+                        {{ field }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+ 

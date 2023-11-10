@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/add_supplier.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 30rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">Add Company Details</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+                
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<script>
+   
+</script>
+{% endblock content %}

@@ -1,0 +1,36 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>App Functions</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>App Functions</th>
+        
+      </tr>
+    </thead>
+
+    
+    
+        <table border="1">
+        <tr>
+            <th>App Functions</th>
+            <th>Purpose</th>
+            <th>Action</th>
+          
+        </tr>
+       {% for function in all_functions %}
+            <tr>  
+                <td>{{ function.function_name }}</td>
+                <td>{{ function.purpose }}</td>
+                 <td>{{ function.purpose }}</td>
+             
+            </tr>
+        {% endfor %}
+    </table>
+    
+  </table>
+</div>
+{% endblock %}

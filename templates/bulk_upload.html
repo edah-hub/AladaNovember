@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/add_supplier.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 30rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">Bulk Upload Items</h2>
+        </div>
+        <div class="card-body">
+           <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+                
+                <div class="d-flex justify-content-between"> <!-- Wrap buttons in a flex container -->
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

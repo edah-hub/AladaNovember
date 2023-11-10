@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+
+<style>
+  .form-control {
+    border: 2px solid white;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid black;
+  }
+
+  #id_from_date,
+  #id_to_date,
+  #id_Store,
+  #id_MRP,
+  #id_Expiry_Date,
+  #id_Pysical_Qty,
+  #id_GST,
+  #id_CGST,
+  #id_SGST,
+  #id_IGST,
+  #id_Remark {
+    border: 2px solid rgb(233, 233, 233);
+    width: 100%;
+    background-color: rgb(233, 233, 233);
+    border-bottom: 1px solid black;
+  }
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+<!-- content -->
+<div class="page-wrapper">
+  <div class="content">
+    <nav class="navbar navbar-light bg-blue" style="background-color: rgb(64, 64, 207);">
+      <div class="container-fluid">
+        <a class="navbar-brand" style="color: white;" href="#">Stock Entry</a>
+      </div>
+    </nav><br>
+    <form method="post">
+
+      <div class="container-fluid">
+
+        <div class="col-lg-12 col-md-12 col-sm-8 col-xs-8">
+          <div class="card">
+            <div class="body">
+              
+              <br>
+
+              <div class="col-lg-12 col-md-12 col-sm-4 col-xs-4" style="background-color:rgb(233, 233, 233);"><br>
+                {% csrf_token %}
+                <div class="form-row pb-3">
+                  <div class="form-group col-md-2 mb-0">
+                    <label><b>PO ID</b></label>
+                    <input type="text" name="po_no" class="form-control" required>
+                  </div>
+                  <div class=" col-md-1"><br>
+                    <button type="submit" name="search_po" value="search_po" class="btn btn-warning w-100 mt-2"><i
+                        class="fa fa-search pr-2"></i>Search</button>
+                  </div>
+
+                  </div>
+                </div>
+
+              </div>
+              <br>
+              <br>
+            </form>
+          </div>
+          <!-- ... (previous content) ... -->
+
+        <div class="table-responsive">
+            <table class="datatable table table-stripped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>PO No.</th>
+                        <th>Supplier</th>
+                        <th>Branch</th>
+                        <th>Items</th>
+                        <th>Uom</th>
+                        <th>Quantity Purchased</th>
+                        <th>Purchase Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if purchase_order %}
+                    {% for order in purchase_order %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><b>{{ order.po_number }}</b></td>
+                        <td>{{ order.supplier.supplier_name }}</td>
+                        <td>{{ order.branch_name.branch_name }}</td>
+                        <td>
+                            {% for ingredient in order.ingredients.all %}
+                                {{ ingredient.item.item_name }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for ingredient in order.ingredients.all %}
+                                {{ ingredient.item_UOM.UOM_name }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for ingredient in order.ingredients.all %}
+                                {{ ingredient.quantity }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ order.purchase_date }}</td>
+                          <td> 
+                            <a href="{% url 'edit_purchase_order' purchase_order_id=order.id %}">
+                                <button type="button" class="btn btn-success">Confirm</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="9">No data available</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

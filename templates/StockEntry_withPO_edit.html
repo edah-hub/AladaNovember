@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<style>
+  /* Add any custom styles for the stock receipt edit page here */
+</style>
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div class="container">
+    <h2>Edit Stock Receipt</h2>
+    <form method="post">
+      {% csrf_token %}
+      <!-- Add any additional fields you want for editing here -->
+      <div class="form-group">
+        <label for="supplier">Supplier:</label>
+        <select class="form-control" name="supplier" required>
+          <!-- Populate the options dynamically from your database -->
+          <option value="{{ stock_receipt.supplier.id }}">{{ stock_receipt.supplier.supplier_name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="branch">Branch:</label>
+        <select class="form-control" name="branch" required>
+          <!-- Populate the options dynamically from your database -->
+          <option value="{{ stock_receipt.branch_name.id }}">{{ stock_receipt.branch_name.branch_name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="items">Items:</label>
+        <select class="form-control" name="items" required>
+          <!-- Populate the options dynamically from your database -->
+          {% for ingredient in stock_receipt.ingredients.all %}
+            <option value="{{ ingredient.item.id }}" {% if ingredient.item == stock_receipt.item %}selected{% endif %}>{{ ingredient.item.item_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="uom">UOM:</label>
+        <select class="form-control" name="uom" required>
+          <!-- Populate the options dynamically from your database -->
+          {% for ingredient in stock_receipt.ingredients.all %}
+            <option value="{{ ingredient.item_UOM.id }}" {% if ingredient.item_UOM == stock_receipt.uomm %}selected{% endif %}>{{ ingredient.item_UOM.UOM_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" class="form-control" name="quantity" value="{{ stock_receipt.purchase_quantity }}" required>
+      </div>
+      <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" step="0.01" class="form-control" name="price" value="{{ stock_receipt.price }}" required>
+      </div>
+      <div class="form-group">
+        <label for="received_by">Received By:</label>
+        <input type="text" class="form-control" name="received_by" value="{{ stock_receipt.receive_by }}" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="#" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</section>
+{% endblock content %}

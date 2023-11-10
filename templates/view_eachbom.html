@@ -1,0 +1,70 @@
+{% extends 'base.html' %} {% load static %} {% block styles %} {{block.super}}
+<link
+  href="{% static 'css/view_suppliers.css' %}"
+  rel="stylesheet"
+  type="text/css"
+/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock styles %} {% block content %}
+<section style="width: 100%">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>BOM</h2>
+
+      {% comment %} <div class="float-end">
+        <a href="{% url 'bom' %}">
+          <button type="button" class="btn btn-success">Create BOM</button>
+        </a>
+      </div> {% endcomment %}
+    </div>
+    <div class="table-responsive">
+    {% comment %} {% for bom in boms %}
+        <li>{{ bom.bom_id }} - {{ bom.item }}</li>
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %} {% endcomment %}
+     <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th>Bom id</th>
+             <th>Product</th>
+              
+             <th>
+              Ingredients<br>
+              <sub style="margin-right: 10px;">Items</sub>
+              <sub style="margin-right: 10px;">UOM</sub>
+              <sub>Quantity</sub>
+            </th>
+             {% comment %} <th>Quantity</th> {% endcomment %}
+             <th>Edit date</th>
+             <th>Update</th>
+              <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>{% for bom in bomss %}
+            <td scope="row">{{bom.counter}}</td>
+            <td>{{bom.bom_id}}</td>
+            <td scope="row">{{bom.item}}</td>
+            <td>
+              {% for ingredient in bom.ingredients.all %}
+              <p>
+                <span style="margin-right: 10px;">{{ingredient.item.item_name}}</span>
+                <span>{{ingredient.item_UOM}}</span>
+                <span style="margin-right: 10px;">{{ingredient.quantity}}</span>
+              </p>
+              {% endfor %}
+            </td>
+             <td>{{bom.edit_date}}</td>
+            <td><a href="{% url 'view_bom_detail' bom.bom_id %}">
+            <button type="button" class="btn btn-success">Update</button></a></td>
+            <td><a href="{% url 'delete_bom' bom.id %}"><i class="fa fa-trash"></i></a></td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+  </div>
+</section>
+{% endblock content %}

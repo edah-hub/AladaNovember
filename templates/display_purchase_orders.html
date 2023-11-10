@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Show Stock Receipts</h2>
+            <div class="float-end" style="position: relative;">
+                <button type="button" class="btn btn-success" id="receive-stock-btn">Receive stock</button>
+                <div class="dropdown-menu" id="dropdown-links" style="position: absolute; top: 100%; left: 0; display: none;">
+                    <a class="dropdown-item" href="{% url 'StockEntry_withPO' %}">With PO</a>
+                    <a class="dropdown-item" href="{% url 'StockEntry_withoutPO' %}">Without PO</a>
+                </div>
+            </div>
+        </div>
+        <br>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Stock Receipt No</th> 
+                <th>Supplier</th>
+                <th>Branch</th>
+                             
+                <th>Item</th>
+                <th>UOM</th>
+                <th>Quantity</th>
+         
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase_order in purchase_orders %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ purchase_order.stockreip }}</td>
+                    <td>{{ purchase_order.supplier.supplier_name }}</td>
+                    <td>{{ purchase_order.branch_name }}</td>               
+                   
+                    
+              
+                    <td>
+                        {% for stock_receipt in purchase_order.stock_receipt_set.all %}
+                            {{ stock_receipt.stockreip }}<br>
+                        {% endfor %}
+                    </td>
+                    
+                    <td>
+                        <table class="table">
+                           
+                                {% for ingredient in purchase_order.ingredients.all %}
+                                    <tr>
+                                        <td>{{ ingredient.item.item_name }}</td>
+                                        <td>{{ ingredient.item_UOM.UOM_name }}</td>
+                                        <td>{{ ingredient.quantity }}</td>
+                                    </tr>
+                                {% endfor %}
+                          
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

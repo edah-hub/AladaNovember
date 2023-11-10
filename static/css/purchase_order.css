@@ -1,0 +1,146 @@
+/* Receiver */
+/* Form input field */
+.form-container input[type="text"] {
+    width: 50%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Form input field focus */
+  .form-container input[type="text"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+  
+  /* Form input field placeholder */
+  .form-container input[type="text"]::placeholder {
+    color: #999;
+  }
+  
+
+/* supplier */
+
+/* Form select dropdown */
+.form-container select.form-select {
+    width: 50%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 16px; /* Reduce font size */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Form select label */
+  .form-container .form-label {
+    font-size: 86px; /* Reduce font size */
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+/* phone */
+.form-container input[type="number"],
+.form-container select,
+.form-container input[type="tel"] {
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px; /* Increase font size */
+}
+
+/* Form input label */
+.form-container .form-label {
+  font-size: 18px; /* Increase font size */
+  margin-bottom: 5px;
+  display: block;
+}
+
+  /* Form container */
+  .form-container {
+    max-width: 890px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+  }
+
+  /* Form heading */
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Form input fields */
+  .form-container input[type="number"],
+  .form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  /* Form submit button */
+  .form-container button[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  /* Form table */
+  .form-container table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+  }
+
+  /* Form table header */
+  .form-container th {
+    background-color: #4CAF50;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+  }
+
+  /* Form table data cells */
+  .form-container td {
+    padding: 10px;
+  }
+
+  .form-container .add-item-btn,
+  .form-container .remove-item-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 12px 24px; /* Increase padding for larger button size */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .form-container .add-item-btn {
+    margin-right: 5px;
+  }
+
+
+
+  /* Form error messages */
+  .form-container .error-message {
+    color: red;
+    margin-top: 5px;
+  }

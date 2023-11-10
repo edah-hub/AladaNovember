@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  {{ block.super }}
+ 
+<link href="{% static 'css/Purchases.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="table-container">
+      <h2>Stock Receipt</h2>
+      <table id="purchase_orders_table">
+        <tr>
+          <th scope="col">#</th>
+          <th>StockReceipt No</th>
+          <th>Supplier</th>
+          <th>Branch</th>
+          <th>Payment Method</th>
+          <th>Overdue days
+            <span id="sort_icon" class="fa fa-sort" onclick="toggleSortOrder()"></span>
+          </th>
+          <th>Status</th>
+     
+        </tr>
+        {% for purchase_order in purchase_orders %}
+          <tr>
+            <td scope="row">{{forloop.counter}}</td>
+            <td>{{ purchase_order.stockreip }}</td>
+            <td>{{ purchase_order.supplier.supplier_name }}</td>
+            <td>{{ purchase_order.branch_name }}</td>           
+            <td>{{ purchase_order.supplier.preferred_mode_of_payment }}</td>
+            <td>{{ purchase_order.overdue_days }}</td>
+            <td>{{ purchase_order.orderstatus }}</td>
+     
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</section>
+{% block scripts %}
+  {{ block.super }}
+  <script>
+    // Function to toggle sorting order
+    function toggleSortOrder() {
+      var table = document.getElementById("purchase_orders_table");
+      var rows = Array.from(table.getElementsByTagName("tr")).slice(1); 
+      rows.sort(function (a, b) {
+        var aValue = parseInt(a.cells[5].textContent);
+        var bValue = parseInt(b.cells[5].textContent);
+        return aValue - bValue;
+      });
+
+      // Check the icon and sort accordingly
+      var icon = document.getElementById("sort_icon");
+      if (icon.classList.contains("fa-sort-up")) {
+        rows.reverse();
+        icon.classList.replace("fa-sort-up", "fa-sort-down");
+      } else {
+        icon.classList.replace("fa-sort-down", "fa-sort-up");
+      }
+
+      // Reinsert sorted rows into the table
+      for (var i = 0; i < rows.length; i++) {
+        table.appendChild(rows[i]);
+      }
+    }
+  </script>
+{% endblock scripts %}
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>UOM</h2>
+
+        <!-- <div class="float-end">
+            <a href="{% url 'add_product' %}">
+                <button type="button" class="btn btn-success">Add Product</button>
+            </a>
+        </div> -->
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">UoM Name</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+              {% for uo in uom %}
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{uo.UOM_name}}</td>
+            
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</section>
+{% endblock content %}

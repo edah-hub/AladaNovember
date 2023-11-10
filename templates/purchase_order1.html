@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/purchase_order.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="form-container">
+      <h2>Create Purchase Order</h2>
+
+      <form method="POST" action="{% url 'create_purchase_order' %}">
+        {% csrf_token %}
+
+        <div class="form-row">
+          <label class="form-label" for="phone_number">Receive By:</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        </div>
+
+        <label class="form-label" for="mainItem">Supplier:</label>
+        <select class="form-select" id="mainItem" name="mainItem">
+          <option disabled selected required>Select Supplier</option>
+          {% for item in suppliers %}
+          <option value="{{ item.id }}">{{ item.supplier_name }}</option>
+          {% endfor %}                    
+        </select>
+
+        <div class="form-row">
+          <label class="form-label" for="phone_number">Phone Number:</label>
+          <input type="tel" id="phone_number" name="phone_number" pattern="[0-9]{10}" required>
+        </div>
+        <br>
+        <table id="item-table">
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Unit price</th>
+          </tr>
+          <tr class="new-item-row">
+            <td>
+              <select name="item_id"> 
+                <option disabled selected required>Select item</option>
+                {% for item in items %}
+                  <option value="{{ item.id }}">{{ item.item_name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <td>
+              <input type="number" name="quantity" min="1" required>
+            </td>
+            <td>
+              <input type="number" name="unit_price" step="0.01" required>
+            </td>
+            <td>
+              <button type="button" class="add-item-btn">Add Row</button>
+            </td>
+            <td>
+              <button type="button" class="remove-item-btn">Remove Row</button>
+            </td>
+          </tr>
+        </table>
+        <button type="submit">Add Quantity</button>
+      </form>
+    </div>
+
+    <div class="purchase-list-container">
+      <h2>Purchase Orders</h2>
+      <ul class="purchase-list">
+        {% for purchase_order in purchase_orders %}
+          <li>
+            <h3>Supplier: {{ purchase_order.supplier }}</h3>
+            <p>Phone Number: {{ purchase_order.phone_number }}</p>
+            <h4>Items:</h4>
+            <ul>
+              {% for item in purchase_order.items.all %}
+                <li>{{ item.item_name }} - Quantity: {{ item.purchase_quantity }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  
+
+
+<script>
+  // JavaScript code to handle adding and removing rows for the item
+
+  document.getElementById("item-table").addEventListener("click", function (event) {
+    if (event.target.classList.contains("add-item-btn")) {
+      var newItemRow = document.querySelector(".new-item-row");
+      var newRow = newItemRow.cloneNode(true);
+      newRow.classList.remove("new-item-row");
+      newItemRow.parentNode.insertBefore(newRow, newItemRow.nextSibling);
+    }
+
+    if (event.target.classList.contains("remove-item-btn")) {
+      console.log(event.target.parentNode.parentNode.parentNode)
+      var rowToRemove = event.target.parentNode.parentNode;
+      rowToRemove.parentNode.removeChild(rowToRemove);
+    }
+  });
+</script>
+</div>
+</section>
+{% endblock content %}

@@ -1,0 +1,133 @@
+ {% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<title>Inter-Branch Item Transfer</title>
+<link href="{% static 'css/transfer_items.css' %}" rel="stylesheet" type="text/css">
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock styles %}
+
+{% block content %}
+<body>
+    <h1>Branch Transfer</h1>
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+    <form method="post" action="{% url 'transfer_items' %}">
+        {% csrf_token %}
+        <label for="from_branch">From Branch:</label>
+        <select id="from_branch" name="from_branch" onchange="populateItems(this)">
+            <option disabled selected>From Branch</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="to_branch">To Branch:</label>
+        <select name="to_branch" id="to_branch">
+            <option disabled selected>To Branch</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <table id="item-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="item-row" data-selected-item="">
+                    <td>
+                        <select name="item" class="item-select">
+                            <!-- <option disabled selected>Select an item</option> -->
+                            <option value="">Select an item</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="quantity" class="quantity-input">
+                    </td>
+                    <td>
+                        <button id="removebtn" type="button" class="remove-row-btn">Remove</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="button" id="add-row-button">Add Row</button>
+        <br>
+        <input type="submit" value="Transfer">
+    </form>
+
+    <script>
+        function addRow() {
+          var tableBody = document.querySelector('#item-table tbody');
+          var newRow = document.querySelector('.item-row').cloneNode(true);
+          newRow.querySelector('.item-select').value = '';
+          newRow.querySelector('.quantity-input').value = '';
+          tableBody.appendChild(newRow);
+        }
+      
+        function removeRow(buttonElement) {
+          var rowToRemove = buttonElement.closest('.item-row');
+          if (rowToRemove.parentElement.childElementCount > 1) {
+            rowToRemove.parentNode.removeChild(rowToRemove);
+          }
+        }
+      
+        document.getElementById('add-row-button').addEventListener('click', addRow);
+      
+        document.addEventListener('click', function(event) {
+          if (event.target.classList.contains('remove-row-btn')) {
+            removeRow(event.target);
+          }
+        });
+    
+        document.addEventListener('change', function(event) {
+            if (event.target.classList.contains('item-select')) {
+                var row = event.target.parentNode.parentNode;
+                row.setAttribute('data-selected-item', event.target.value);
+                populateItems(event.target);
+            }
+        });
+    
+        function populateItems(selectElement) {
+            var branchId = document.getElementById('from_branch').value;
+            var row = selectElement.parentNode.parentNode;
+            var itemsSelect = row.querySelector('.item-select');
+    
+            $.ajax({
+                url: "{% url 'get_items_for_branch' %}",
+                data: {
+                    branch_id: branchId
+                },
+                dataType: 'json',
+                success: function(response) {
+                    itemsSelect.innerHTML = ''; // Clear the dropdown
+    
+                    response.items.forEach(function(item) {
+                        var option = document.createElement('option');
+                        option.value = item.id;
+                        option.text = item.item_name;
+                        itemsSelect.appendChild(option);
+                    });
+    
+                    // Set the selected item in the dropdown
+                    itemsSelect.value = row.getAttribute('data-selected-item') || '';
+                }
+            });
+        }
+    
+        // Trigger the initial population of items for the first row
+        var initialItemSelect = document.querySelector('.item-row .item-select');
+        populateItems(initialItemSelect);
+    </script>
+</body>
+
+{% endblock content %}

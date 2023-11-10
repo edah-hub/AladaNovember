@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>User Roles</h2>
+            <div class="float-end">
+                <a href="{% url 'user_role' %}">
+                    <button type="button" class="btn btn-success">Add User Role</button>
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">id</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Functions Allowed</th>
+                    <th scope="col">Actions</th> <!-- New column for actions -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_role in all_user_roles %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ user_role.role_id }}</td>
+                    <td>{{ user_role.role_name }}</td>
+                    <td>{{ user_role.functions_allowed }}</td>
+                    <td>
+                        <!-- Action buttons or links -->
+                        <a href="{% url 'edit_user_role' user_role.role_id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'delete_user_role' user_role.role_id %}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock content %}

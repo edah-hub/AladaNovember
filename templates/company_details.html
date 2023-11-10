@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Company Details</h2>
+
+        {% comment %} <div class="float-end">
+            <a href="{% url 'add_company_details' %}">
+                <button type="button" class="btn btn-success">Add Company Details</button>
+            </a>
+        </div>  {% endcomment %}
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Company Code</th>
+            <th scope="col">Company Location</th>
+            <th scope="col">Main Branch</th>
+            <th scope="col">Preffered Mode of Payment</th>
+            <th scope="col">Till Number</th>
+            <th scope="col">Paybill Number</th>
+            <th scope="col">Phone Number</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for company_detail in company_details %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{company_detail.company_name}}</td>
+            <td>{{company_detail.company_code}}</td>
+            <td>{{company_detail.company_location}}</td>
+            <td>{{company_detail.main_branch}}</td>
+            <td>{{company_detail.preffered_mode_of_payment}}</td>
+            <td>{{company_detail.till_number}}</td>
+            <td>{{company_detail.paybill_number}}</td>
+            <td>{{company_detail.company_phone_number}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

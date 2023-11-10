@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/add_supplier.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+
+{% block content %}
+<section style="width: 100%;">
+  <div class="d-flex justify-content-center align-items-center flex-column">
+      <h2>Add Supplier Type</h2>
+
+      <form action="" method="post" style="width: 40rem;">
+          {% csrf_token %}
+
+          {% bootstrap_form form %}
+          <a href="views_suppliers">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </a>         
+      </form>
+  </div>
+</section>
+{% endblock content %}
+
+

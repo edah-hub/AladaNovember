@@ -1,0 +1,62 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid black;
+  }
+  
+  th {
+    background-color: #ddd;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  select, input[type="text"], input[type="number"], input[type="submit"] {
+    display: block;
+    margin-bottom: 10px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid black;
+  }
+  
+  th {
+    background-color: #ddd;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  select, input[type="text"], input[type="number"], input[type="submit"] {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  label[for="item"] {
+    display: inline-block;
+    width: 120px;
+  }
+    /* CSS to align dropdown label and input field in one line */
+    label {
+      display: inline-block;
+      width: 150px;
+      text-align: right;
+      margin-right: 10px;
+    }
+    input[type="text"], select {
+      display: inline-block;
+      width: 200px;
+    }

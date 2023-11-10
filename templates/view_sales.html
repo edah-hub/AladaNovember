@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<style>
+  .new {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    display: flex;
+    width: 50%;}
+   
+        .search-button {
+            margin-left: 99px; /* Adjust the margin value as per your preference */
+        }
+        .fa-sort {
+            font-size: 1.2em; /* Adjust the font size as needed */
+        }
+        .table-container {
+            max-width: 1200px; /* Adjust the maximum width of the container */
+            margin: 0 auto;
+            overflow-x: auto; /* Enable horizontal scrolling for the table */
+        }
+        .sort-icon {
+            margin-left: 5px;
+        }
+        .main-quantity {
+            text-align: center;
+            font-size: 1.5em; /* Adjust the font size as needed */
+        }
+        #table-header {
+            color: black; /* Set the color to black */
+        }
+        th a {
+          
+          text-decoration: none;
+          color: black; /* Change the color as needed */
+        }
+        
+        #sort_icon {
+          margin-left: 5px; /* Adjust the margin as needed */
+        }
+        
+        
+        th a:hover {
+            text-decoration: none;
+        }
+
+</style>
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Sales</h2>
+
+      <div class="float-end">
+        <a href="{% url 'add_sales' %}">
+          <button type="button" class="btn btn-success">Add Sale</button>
+        </a>
+        <a href="{% url 'upload_sales' %}">
+            <button type="button" class="btn btn-warning">Bulk Upload Sales</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Search Form -->
+    <form method="GET" action="{% url 'view_sales' %}">
+      <div class="new">
+        <input type="text" class="form-control" name="search_query" placeholder="Search by Item Name, or Item Code">
+        <button class="btn btn-primary search-button" type="submit">Search</button>
+      </div>
+    </form>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Receipt <br> Number</th> 
+          <th scope="col">Item</th>
+          <th scope="col">Branch</th>
+       
+             <th>
+                  <a href="{% url 'view_sales' %}?sort_by=created_date&sort_order={{ sort_order|default:'asc' }}">
+                    Sale Date 
+                    <span id="sort_icon" class="fa {% if sort_by == 'created_date' %}fa-sort-amount-{% if sort_order == 'asc' %}down{% else %}up{% endif %}{% else %}fa-sort{% endif %}"></span>
+                  </a>
+                </th>
+          <th scope="col">Quantity Sold</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sale in sales %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+       <td>{{ sale.receipt_number }}</td> 
+          <td>{{ sale.item }}</td>
+          <td>{{ sale.branch }}</td>
+          <td>{{ sale.sale_date }}</td>
+          <td>{{ sale.quantity_sold }}</td>
+          <td>{{ sale.unit_price }}</td>
+          <td>{{ sale.total_amount }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock content %}

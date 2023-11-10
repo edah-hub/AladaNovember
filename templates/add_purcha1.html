@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'css/bom4.css' %}" rel="stylesheet" type="text/css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid black;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        select, input[type="text"], input[type="number"], input[type="submit"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="card" style="max-width: 50rem; margin: auto;">
+        <div class="card-header">
+            <h2 class="text-dark pb-3  mt-2">Purchase Order</h2>
+        </div>
+        <div class="card-body">
+            <form id="form" method="POST" action="">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <label class="form-label" for="mainItem">Supplier:</label>
+                    <select class="form-select" id="mainItem" name="mainItem">
+                        <option disabled selected>Select Supplier</option>
+                        {% for item in suppliers %}
+                            <option value="{{ item.id }}">{{ item.supplier_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="branch">Branch:</label>
+                    <select class="form-select" id="branch" name="branch">
+                        <option disabled selected>Select Branch</option>
+                        {% for branch in branches %}
+                            <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                            <th>Unit of Measure</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr id="ingredients-row">
+                            <td>
+                                <select class="form-select ingredient" name="ingredient">
+                                    <option disabled selected>Select Item</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="mainUOM">
+                                    <option disabled selected>Select UoM</option>
+                                    {% for uom in uoms %}
+                                        <option value="{{ uom.id }}">{{ uom.UOM_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td><input type="number" class="form-control" name="quantity"></td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove-row-button">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn btn-primary" id="add-row-button">Add Row</button>
+                    <button type="submit" class="btn btn-success m-3">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('form');
+        const table = document.getElementById('table');
+        const addRowButton = document.getElementById('add-row-button');
+        const existingRow = table.querySelector('tr');
+        const newRow = document.getElementById('ingredients-row');
+    
+        // Fetch items based on selected branch
+        const fetchItems = (branchId) => {
+            const url = `/fetch_items/?branch_id=${branchId}`;
+    
+            fetch(url)
+                .then(response => response.json())
+                .then(items => {
+                    const ingredientSelect = newRow.querySelector('.ingredient');
+                    ingredientSelect.innerHTML = '<option disabled selected>Select Item</option>';
+    
+                    items.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.item_name;
+                        ingredientSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching items:', error);
+                });
+        };
+    
+        // Event listener for branch selection
+        const branchSelect = document.getElementById('branch');
+        branchSelect.addEventListener('change', () => {
+            const branchId = branchSelect.value;
+            if (branchId) {
+                fetchItems(branchId);
+            }
+        });
+    
+        // Add row button functionality
+        addRowButton.addEventListener('click', () => {
+            const clone = newRow.cloneNode(true);
+            clone.value = '';
+            table.getElementsByTagName('tbody')[0].appendChild(clone);
+        });
+    </script>
+    
+
+</section>
+{% endblock content %}

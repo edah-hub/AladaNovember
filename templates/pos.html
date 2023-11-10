@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/pos.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<div class="card-container">
+    <h2 class = "text-center fw-b">POS</h2>
+
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <h4>Customer</h4>            
+        </div>
+        <div class="card-body">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="phonenumber" class="form-label">Mobile No:</label>
+                    <input type="number" class="form-control" id="phone number" placeholder="0722000000">
+                  </div>
+                  <div class="mb-3">
+                    <label for="name" class="form-label"></label>Customer Name:
+                    <input type="text" class="form-control" id="name" placeholder="John Doe">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email address:</label>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                  </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <h4>Product</h4>
+        </div>
+
+        <div class="card-body">
+            <form action="post">
+
+                <div class="category">
+                    <label for="product" class="col-sm-2 col-form-label">Category:</label>
+                    <select>
+                        <option selected>Select Category</option>
+                        <option value="volvo">cat1</option>
+                        <option value="saab">cat2</option>
+                        <option value="fiat">cat3</option>
+                        <option value="audi">cat4</option>
+                      </select> <br>
+                </div>
+    
+                  <div class="subcategory">
+                    <label for="product" class="col-sm-2 col-form-label">Subcategory:</label>
+                    <select>
+                  <option selected>Subcategory</option>
+                    <option value="volvo">cat1</option>
+                    <option value="saab">cat2</option>
+                    <option value="fiat">cat3</option>
+                    <option value="audi">Acat4</option>
+                  </select> <br>
+                  </div>
+                
+    
+                <div class="productname">
+                    <label for="product" class="col-sm-2 col-form-label">Product Name:</label>
+                    <select>
+                        <option selected>Product Name</option>
+                        <option value="volvo">name1</option>
+                        <option value="saab">name2</option>
+                        <option value="fiat">name3</option>
+                        <option value="audi">name4</option>
+                      </select> <br>
+                </div>
+
+                <div class="price">
+                    <label for="product" class="col-sm-2 col-form-label">Price:</label> 
+                    <select>
+                  <option selected>0</option>
+                    <option value="volvo">1</option>
+                    <option value="saab">2</option>
+                    <option value="fiat">3</option>
+                    <option value="audi">4</option>
+                  </select> <br>
+                </div>
+
+                <div class="quantity">
+                    <label for="product" class="col-sm-2 col-form-label">Quantity:</label>
+                    <select>
+                  <option selected>0</option>
+                    <option value="volvo">1</option>
+                    <option value="saab">2</option>
+                    <option value="fiat">3</option>
+                    <option value="audi">4</option>
+                  </select> <br>
+                </div>
+ 
+                
+    
+                            
+              </form>
+        </div>
+
+
+
+    </div>
+
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <h4>Bill Courier</h4>
+
+        </div>
+        <div class="card-body">
+            
+            <div class="mb-2 row">
+                <label for="subtotal" class="col-sm-2 col-form-label">Sub Total</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="subtotal">
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Gov Tax</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="govtax">
+                </div>
+              </div>
+              <div class="mb-2 row">
+            </div>
+            <div class="mb-2 row">
+              <label for="total" class="col-sm-2 col-form-label">Total</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="total">
+              </div>
+            </div>
+        </div>
+    </div>    
+
+<div class="card-container">
+    <div class="card">
+        
+        <div class="btn-group">
+            <button type="button" class="btn btn-success m-2">Add TO Cart</button>
+            <button type="button" class="btn btn-success m-2">Generate Bill</button>
+            <button type="button" class="btn btn-success m-2">Save Bill</button>
+            <button type="button" class="btn btn-success m-2">Print</button>
+            <button type="button" class="btn btn-warning m-2">Clear</button>
+            <button type="button" class="btn btn-danger m-2">Exit</button>
+           
+            
+        </div>    
+        
+       
+        
+       
+       
+    </div>
+</div>
+
+</div>
+
+    
+
+
+
+
+  
+{% endblock content %}
+
+

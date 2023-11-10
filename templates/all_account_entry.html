@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!-- Page Wrapper -->
+
+
+<div class="page-wrapper dashboard-wrap">
+    <h2 style="margin: 30px;"> Account Entries</h2>
+    <div class="content container-fluid">
+
+        <!-- Main Block -->
+        <div class="card" style="padding: 10px;">
+            <div class="col-sm-12">
+                <h4 class="page-title" style="color: orangered;"></h4>
+                <a href="{% url 'add_account_entry' %}">
+                    <button type="button" style="border: none;" class="btn btn-primary">
+                        <i class="fas fa-plus-square"></i> New
+                    </button>
+                </a>
+                <a href="{% url 'view_account_entry' %}">
+                    <button type="button" style="border: none;" class="btn btn-primary">
+                        <i class="fa fa-list-alt"> View</i>
+                    </button>
+                </a><br><br>
+            </div>
+         
+        </div>
+
+    </div>
+</div>
+{% endblock content%}

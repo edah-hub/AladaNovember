@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Item Group</h2>
+        <div class="float-end">
+          <a href="{% url 'item_group'%}">
+            <button  type="button" class="btn btn-success">Add Item Group</button>
+          </a>         
+        </div>
+
+
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Group Code</th> 
+                <th scope="col">Group Name</th>
+                             
+              </tr>
+            </thead>
+            <tbody>
+              {% for Item_group in Item_groups %}
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+              
+                <td>{{Item_group.group_code}}</td>   
+                <td>{{Item_group.group_name}}</td>         
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</section>
+{% endblock content %}

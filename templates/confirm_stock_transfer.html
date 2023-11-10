@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/confirm_stock_transfer.css' %}" rel="stylesheet" type="text/css" />
+{% endblock styles %} {% block content %}
+<section style="width: 100%">
+  <div class="card" style="max-width: 50rem; margin: auto">
+    <div class="card-header">
+      <h2 class="text-dark pb-3 mt-2">Stock Receipts</h2>
+    </div>
+    <div class="container-fluid">
+      <form method="post">
+        {%csrf_token%}
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="po_number" placeholder="Enter P.O. Number">
+          <button class="btn btn-success" type="submit" id="button-addon2">Search</button>
+        </div>
+      </form>
+
+        <div id="search-results"></div>
+    </div>
+  </div>
+
+  <div class=" col-md-6"><br>
+    <label><b>Proceed without PO</b></label>
+    <a href="{% url 'without_po'%}" class="btn btn-primary w-100 mt-2"> <i class="fa fa-hand-pointer"
+        aria-hidden="true">&nbsp;Without-PO</i></a>&nbsp;
+  </div>
+
+  <div class="table-responsive ">
+    <table class="datatable table table-stripped">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th scope="col">Stock Supplier</th>
+          <th scope="col">Stock Branch</th>
+          <th scope="col">Stock Receipt Type</th>
+          <th scope="col">Stock Branch ID</th>
+          <th scope="col">Stock Receipt date</th>
+          <th scope="col">Received By</th>
+          <th scope="col">Purchase Order Number</th>
+          <th scope="col">Items</th>
+          <th>View</th>
+
+        </tr>
+      </thead>
+      {% if stock %}
+      <tbody>
+
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{stock.branch}}</td>
+          <td>{{stock.receipt_type}}</td>
+          <td>{{stock.supplier}}</td>
+          <td>{{stock.stock_receipt_branch_id}}</td>
+          <td>{{stock.receipt_date}}</td>
+          <td>{{stock.received_by}}</td>
+          <td>{{stock.po_number}}</td>
+          <td>
+            {% for item in stock.items.all %}
+            <span>{{item.item_name}}</span>,
+            {% endfor %}
+          </td>
+
+          <td><a class="btn btn-primary" href="/search_single_PO/{{data1.PO_id}}"><i class="fa fa-hand-pointer"
+                aria-hidden="true"></i></a>
+          </td>
+        </tr>
+
+      </tbody>
+      {% endif %}
+
+    </table>
+  </div>
+</section>
+
+<script>
+  var searchForm = document.getElementById('search-form');
+  var searchButton = document.getElementById('search-button');
+  var searchResults = document.getElementById('search-results');
+
+  searchForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var itemName = document.getElementById('item_name').value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/search/?item_name=' + encodeURIComponent(itemName));
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        if (data.error) {
+          searchResults.innerHTML = '<p>' + data.error + '</p>';
+        } else {
+          searchResults.innerHTML = '<h1>' + data.name + '</h1>' +
+            '<p>' + data.description + '</p>';
+        }
+      } else {
+        searchResults.innerHTML = '<p>Request failed with status ' + xhr.status + '.</p>';
+      }
+    };
+    xhr.send();
+  });
+  window.onload = (e) => {
+    const order_status_input = document.getElementById("order_status");
+    const order_status_label = document.getElementById("order_status_label");
+    const time_label = document.getElementById("time_label");
+    const time = document.getElementById("time");
+    const date_label = document.getElementById("date_label");
+    const date = document.getElementById("date");
+    const purchase_order_no_label = document.getElementById(
+      "purchase_order_no_label"
+    );
+
+    const purchase_order_no = document.getElementById("purchase_order_no");
+    order_status_input.value = "pending";
+    time.value = new Date().toLocaleString('en-US', {
+      hour12: false,
+    }).split(" ")[1].slice(0, 5);
+    console.log(time.value)
+    date.value = new Date().toJSON().slice(0, 10);
+    purchase_order_no.value = Math.random().toString(36).slice(2)
+    console.log(order_status_input.value)
+  };
+
+
+  <!-- JavaScript code to toggle the fields -->
+
+  function toggleFields() {
+    var dropdown = document.getElementById("myDropdown");
+    var fields = document.getElementById("fieldsToToggle");
+
+    if (dropdown.value === "no") {
+      fields.style.display = "block";
+    } else {
+      fields.style.display = "none";
+    }
+  }
+</script>
+
+{% endblock content %}

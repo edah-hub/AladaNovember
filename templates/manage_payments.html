@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  {{ block.super }}
+ 
+<link href="{% static 'css/Purchases.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="table-container">
+      <h2>Manage Payments</h2>
+      <table>
+        <tr>
+          <th scope="col">#</th>
+           <th>Stock Receipt Number</th> 
+          <th>Supplier</th>
+          <th>Phone Number</th>
+          <th>Payment Method</th>
+          <th>Total Amount</th>
+          {% comment %} <th>Amount <br> Paid</th>
+          <th>Outstanding Amount</th> {% endcomment %}
+          <th scope="col">Request Payment</th>
+        </tr>
+        {% for purchase_order in purchase_orders %}
+          <tr>
+            <td scope="row">{{forloop.counter}}</td>
+            <td>{{ purchase_order.stockreip }}</td> 
+            <td>{{ purchase_order.supplier.supplier_name }}</td>
+            <td>{{ purchase_order.supplier.phone_number }}</td>
+            <td>{{ purchase_order.supplier.preferred_mode_of_payment }}</td>
+            <td>
+              <p>{{ purchase_order.total_sumed_prices }}</p>
+            </td>
+            {% comment %} <td>{{ purchase_order.amount_paid }}</td>
+            <td>{{ purchase_order.outstanding_amount }}</td> {% endcomment %}
+            
+            <td><a href="{% url 'pay' purchase_order.id %}">
+              <button type="button">
+                Request Payment
+              </a></button>
+            </td> 
+            
+            <td>
+              {% comment %} <a href="{% url 'pre_payment' purchase_order.id %}">
+                  <button type="button">
+                      Request Payment
+                  </button>
+              </a> {% endcomment %}
+          </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

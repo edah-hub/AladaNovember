@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>Purchase Order :
+        {% for purchase in purchasedetails %}
+          {{ purchase.po_number }}
+        {% endfor %}
+      </h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th>Purchase id</th>
+            <th>
+              <sub style="margin-right: 10px;">Items</sub>
+              <sub style="margin-right: 10px;">UOM</sub>
+              <sub>Quantity</sub>
+            </th>
+            <th>Time Stamp</th>
+            <th>Last Updated</th>
+              <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for purchase in purchasedetails %}
+          <tr>
+            <td scope="row">{{ purchase.counter }}</td>
+            <td>{{ purchase.po_number }}</td>
+            <td>
+              {% for ingredient in purchase.ingredients.all %}
+              <p>
+                <span style="margin-right: 10px;">{{ ingredient.item.item_name }}</span>
+                <span style="margin-right: 10px;">{{ ingredient.item_UOM }}</span>
+                <span style="margin-right: 10px;">{{ ingredient.quantity }}</span>
+              </p>
+              {% endfor %}
+            </td>
+            <td>{{ purchase.purchase_date }}</td>
+            <td>{{ purchase.update_date }}</td>
+           
+            <td>
+               <a href="{% url 'update_purchase' purchase.po_number %}">
+                <button type="button" class="btn btn-primary">Update</button>
+              </a>
+                {% comment %} <a href="{% url 'add_quantity' purchase.po_number %}" class="btn btn-primary">Add Quantity</a> {% endcomment %}
+            </td>
+              <td style="text-align: center;">
+              <a href="{% url 'deletepurchase' purchase.po_number %}">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

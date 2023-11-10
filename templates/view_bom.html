@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+  <div>
+    <div class="d-flex align-items-center justify-content-between">
+      <h2>BOM</h2>
+
+      <div class="float-end">
+        <a href="{% url 'bom' %}">
+          <button type="button" class="btn btn-success">Create BOM</button>
+        </a>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">BOM ID</th>                   
+            <th scope="col">BOM Item</th>
+            {% comment %} <th scope="col">new Item</th> {% endcomment %}
+            <th scope="col">Edit Date</th>
+            <th scope="col">Action</th>
+            
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for bom in boms %}
+          <tr>
+            <td scope="row">{{forloop.counter}}</td>
+            <td>{{bom.bom_id}}</td>
+            <td>{{bom.item}}</td>
+             {% comment %} <td>{{bom.uomm}}</td> {% endcomment %}
+           
+            <td>{{bom.edit_date}}</td>
+            <td><a href="{% url 'view_bom_detail' bom.bom_id %}">
+                <button type="button" class="btn btn-success">View</button></a></td>
+            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/add_product.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div class="d-flex justify-content-center align-items-center flex-column">
+
+        <div class="card" style="width: 30rem">
+            <h2 class="card-header">Make Payment</h2>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+    
+                    {% bootstrap_form form %}
+                    
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    window.onload = async (e) => {
+        await fetch('http://bharathbrandsdotin.pythonanywhere.com/api-alada/payment/', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account Entry Form</title>
+</head>
+<body>
+    <h2>Account Entry Form</h2>
+    <form method="post" action="{% url 'account_entry' %}">
+        {% csrf_token %}
+        <label for="member_id">Member ID:</label>
+        <input type="text" name="member_id"><br>
+        <label for="group_id">Group ID:</label>
+        <input type="text" name="group_id"><br>
+        <label for="pay_amount">Payment Amount:</label>
+        <input type="text" name="pay_amount"><br>
+        <label for="dr_acc">Debit Account:</label>
+        <input type="text" name="dr_acc"><br>
+        <label for="cr_acc">Credit Account:</label>
+        <input type="text" name="cr_acc"><br>
+        <label for="transaction_id">Transaction ID:</label>
+        <input type="text" name="transaction_id"><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

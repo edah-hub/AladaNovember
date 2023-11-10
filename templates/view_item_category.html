@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<link href="{% static 'css/view_suppliers.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2>Item Category</h2>
+
+         <div class="float-end">
+            <a href="{% url 'item_category' %}">
+                <button type="button" class="btn btn-success">Add Item category</button>
+            </a>
+        </div> 
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category Code</th> 
+                <th scope="col">Category Name</th>
+                            
+              </tr>
+            </thead>
+            <tbody>
+              {% for Item_category in Item_categories %}
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{Item_category.category_code}}</td> 
+                <td>{{Item_category.category_name}}</td>
+                     
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</section>
+{% endblock content %}

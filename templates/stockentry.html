@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+{{block.super}}
+<style>
+  .table-container {
+    margin-top: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #e6e6e6;
+  }
+
+  th span,
+  td span {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    margin: 0;
+  }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<section style="width: 100%;">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+          <h2>Show Stock Receipts</h2>
+            <div class="float-end" style="position: relative;">
+                <button type="button" class="btn btn-success" id="receive-stock-btn">Receive stock</button>
+                <div class="dropdown-menu" id="dropdown-links" style="position: absolute; top: 100%; left: 0; display: none;">
+                    <a class="dropdown-item" href="{% url 'StockEntry_withPO' %}">With PO</a>
+                    <a class="dropdown-item" href="{% url 'StockEntry_withoutPO' %}">Without PO</a>
+                </div>
+            </div>
+
+        </div><br>
+          <div class="table-container">
+            <table>
+              <tr>
+                <th>#</th>
+                <th>Supplier</th>
+                <th>Branch</th>
+                <th>Stock Receipt No</th>
+                <th>Stock Receive</th>
+                <th>Total Price</th>
+                {% for purchase_order in purchase_orders %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ purchase_order.supplier.supplier_name }}</td>
+                    <td>{{ purchase_order.branch_name }}</td>
+                    <td>{{ purchase_order.stockreip }}</td>
+                    <td>
+                        {% for ingredient in purchase_order.ingredients.all %}
+                        <p>
+                            <span>{{ ingredient.item.item_name }}</span>
+                            <span>{{ ingredient.quantity }}</span>
+                            <span>{{ ingredient.item_UOM }}</span> 
+                            <span>{{ ingredient.unit_price }}</span>
+                            <span>Total: {{ ingredient.total_price }}</span>
+                        </p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <!-- Calculate the total price for the purchase order -->
+                        {% with total_price=0 %}
+                            {% for ingredient in purchase_order.ingredients.all %}
+                                {% if ingredient.total_price %}
+                                    {% with total_price=total_price|add:ingredient.total_price %}
+                                    {% endwith %}
+                                {% endif %}
+                            {% endfor %}
+                            <p>{{ total_price }}</p>
+                        {% endwith %}
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- ... (remaining template code) ... -->
+
+            </table>
+          </div>
+        </div>
+        <div>
+    </div>
+</section>
+
+<script>
+    var receiveStockBtn = document.getElementById('receive-stock-btn');
+    var dropdownLinks = document.getElementById('dropdown-links');
+
+    receiveStockBtn.addEventListener('click', function () {
+        if (dropdownLinks.style.display === 'none') {
+            dropdownLinks.style.display = 'block';
+        } else {
+            dropdownLinks.style.display = 'none';
+        }
+    });
+</script>
+{% endblock content %}
