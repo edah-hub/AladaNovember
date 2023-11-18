@@ -61,7 +61,8 @@
                             <div style="margin-right: 30px;">Quantity</div>
                             <div style="margin-right: 30px;">Unit price</div>
                             <div style="margin-right: 30px;">Total Price</div>
-                            <div style="margin-right: 30px;">Actions</div>
+                           
+                            <div style="margin-right: 30px;">Delete</div> 
                         </div>
                     </th>
                 </tr>
@@ -82,9 +83,12 @@
                                         <td style="margin-right: 30px;">{{ ingredient.quantity }}</td>
                                         <td style="margin-right: 30px;">{{ ingredient.unit_price }}</td>
                                         <td style="margin-right: 30px;">{{ ingredient.total_price }}</td>
-                                        <td style="margin-right: 30px;">
+                                        {% comment %} <td style="margin-right: 30px;">
                                             <a href="{% url 'update_stock_receipt' purchase_order.id %}" class="btn btn-sm btn-primary">Update</a>
-                                        </td>
+                                        </td> {% endcomment %}
+                                         <td style="margin-right: 30px;">
+                                            <a href="{% url 'delete_stock_receipt' purchase_order.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                         </td>
                                     </tr>
                                 {% endfor %}
                             </table>

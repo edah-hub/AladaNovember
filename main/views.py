@@ -269,6 +269,39 @@ def show_product(request):
             return redirect("error_page")
     else:
         return redirect("login_views")
+    
+# To edit product
+def edit_product(request, id):
+    if request.user.is_authenticated:
+        check_function_name = (
+            "edit_product"  # Change this to the appropriate function name
+        )
+        access_functions = request.session.get("user_allowed_func", [])
+        is_superuser = request.session.get("is_super_users", False)
+
+        if check_function_name in access_functions or is_superuser:
+            item = get_object_or_404(Item, id=id)
+
+            if request.method == "POST":
+                form = ItemForm(request.POST, instance=item)
+                if form.is_valid():
+                    form.save()
+                    return redirect("show_product")
+            else:
+                form = ItemForm(instance=item)
+
+            return render(
+                request,
+                "edit_product.html",
+                {
+                    "form": form,
+                },
+            )
+        else:
+            return redirect("error_page")
+    else:
+        return redirect("login_views")
+
 
 
 # item bulk upload
@@ -543,37 +576,6 @@ def edit_stocks_balance(request, item_id):
         return redirect("login_views")
 
 
-# To edit product
-def edit_product(request, id):
-    if request.user.is_authenticated:
-        check_function_name = (
-            "edit_product"  # Change this to the appropriate function name
-        )
-        access_functions = request.session.get("user_allowed_func", [])
-        is_superuser = request.session.get("is_super_users", False)
-
-        if check_function_name in access_functions or is_superuser:
-            item = get_object_or_404(Item, id=id)
-
-            if request.method == "POST":
-                form = ItemForm(request.POST, instance=item)
-                if form.is_valid():
-                    form.save()
-                    return redirect("show_product")
-            else:
-                form = ItemForm(instance=item)
-
-            return render(
-                request,
-                "edit_product.html",
-                {
-                    "form": form,
-                },
-            )
-        else:
-            return redirect("error_page")
-    else:
-        return redirect("login_views")
 
 
 # purchase order
@@ -970,9 +972,7 @@ def show_stock_receipts(request):
         return redirect("login_views")
 
 
-# def show_stock_receipts(request):
-#     purchase_orders = Stock_Receipt.objects.all()
-#     return render(request, 'show_stock_receipts.html', {'purchase_orders': purchase_orders})
+
 
 
 def update_stock_receipt(request, stock_receipt_id):
@@ -994,6 +994,16 @@ def update_stock_receipt(request, stock_receipt_id):
     }
 
     return render(request, "update_stock_receipt.html", context)
+
+
+def delete_stock_receipt(request, stock_receipt_id):
+    stock_receipt = get_object_or_404(Stock_Receipt, id=stock_receipt_id)
+    stock_receipt.delete()
+    return render(request,"delete_stock_receipt.html")
+
+
+
+
 
 
 # def get_items(request):
@@ -1179,15 +1189,6 @@ def Purchases(request):
         )  # Redirect to the login page for unauthenticated users
 
 
-# def show_stock_receipts(request):
-#     # Retrieve the list of stock receipts and their ingredients
-#     purchase_orders = Stock_Receipt.objects.all()
-
-#     context = {
-#         "purchase_orders": purchase_orders,
-#     }
-
-#     return render(request, "show_stock_receipts.html", context)
 
 
 def manage_payments(request):

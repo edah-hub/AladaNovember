@@ -91,18 +91,7 @@
                     </a>
                 </li>
 
-                {% comment %} <li>
-                    <a href="{% url 'company_details' %}" class="nav-link text-light">
-                        <i class="bi bi-card-text fs-4 text-light"></i>
-                        Company Branches
-                    </a>
-                    <select class="form-select" aria-label="Branches" onchange="handleBranchChange(this)">
-                        <option selected disabled>Company Branches</option>
-                        <option value="{% url 'show_branch' %}"> <i
-                                class="bi bi-house-gear fs-4 text-light"></i>Branches</option>
-                    </select>
-                </li>
-                {% endcomment %}
+          
                 <li>
                     <a href="{% url 'show_branch' %}" class="nav-link text-light">
                         <i class="bi bi-house-gear fs-4 text-light"></i>
@@ -154,24 +143,19 @@
                         Purchase Orders
                     </a>
                 </li>
-                {% comment %} <li>
-                    <a href="{% url 'show_stockreceip' %}" class="nav-link text-light">
-                        <i class="bi bi-table fs-4 text-light"></i>
-                        Stock Receipts1
-                    </a>
-                </li> {% endcomment %}
+           
                 <li>
-                    {% comment %} <a href="{% url 'view_stock' %}" class="nav-link text-light"> {% endcomment %}
+         
                         <a href="{% url 'show_stock_receipts' %}" class="nav-link text-light">
                             <i class="bi bi-table fs-4 text-light"></i>
                             Stock Receipts
                         </a>
                 </li>
                 <li>
-                    {% comment %} <a href="{% url 'view_stock' %}" class="nav-link text-light"> {% endcomment %}
+                  
                         <a href="{% url 'Purchases' %}" class="nav-link text-light">
                             <i class="bi bi-table fs-4 text-light"></i>
-                            Purchases
+                            Stock Receipt Status
                         </a>
                 </li>
 
